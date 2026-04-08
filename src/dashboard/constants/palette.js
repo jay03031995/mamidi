@@ -1,0 +1,18 @@
+export const palette = {
+  background: "#fcfae6",
+  surface: "#fcfae6",
+  surfaceContainer: "#f0efdb",
+  surfaceContainerLow: "#f6f4e1",
+  surfaceContainerHighest: "#e5e3d0",
+  primary: "#385419",
+  primaryContainer: "#4f6d2f",
+  secondary: "#735c00",
+  secondaryContainer: "#fed65b",
+  tertiary: "#7c3a07",
+  outline: "#74796b",
+  onSurface: "#1c1c11",
+  onSurfaceVariant: "#44483d",
+  onPrimary: "#ffffff",
+  onSecondaryContainer: "#745c00",
+  error: "#ba1a1a",
+};

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#1c1c11",
+                    "on-secondary-fixed-variant": "#574500",
+                    "outline": "#74796b",
+                    "tertiary-fixed-dim": "#ffb68c",
+                    "surface-tint": "#49672a",
+                    "secondary": "#735c00",
+                    "on-tertiary-fixed": "#321200",
+                    "on-surface": "#1c1c11",
+                    "surface-variant": "#e5e3d0",
+                    "secondary-fixed": "#ffe088",
+                    "tertiary-fixed": "#ffdbc9",
+                    "inverse-surface": "#313124",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#ffdbc8",
+                    "inverse-primary": "#afd188",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e5e3d0",
+                    "primary": "#385419",
+                    "background": "#fcfae6",
+                    "on-tertiary-fixed-variant": "#753401",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#4f6d2f",
+                    "surface-container": "#f0efdb",
+                    "inverse-on-surface": "#f3f2de",
+                    "on-secondary-fixed": "#241a00",
+                    "primary-fixed": "#caeea1",
+                    "surface-container-low": "#f6f4e1",
+                    "surface-dim": "#dcdbc8",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-primary-container": "#caeea1",
+                    "surface-container-high": "#ebe9d6",
+                    "tertiary-container": "#9a511f",
+                    "on-primary-fixed": "#0f2000",
+                    "surface-bright": "#fcfae6",
+                    "tertiary": "#7c3a07",
+                    "surface": "#fcfae6",
+                    "error": "#ba1a1a",
+                    "on-tertiary": "#ffffff",
+                    "secondary-container": "#fed65b",
+                    "on-secondary-container": "#745c00",
+                    "on-primary-fixed-variant": "#324e14",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#44483d",
+                    "outline-variant": "#c4c8b9",
+                    "primary-fixed-dim": "#afd188"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shift-no-border {
+            border: none !important;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #fcfae6;
+            color: #1c1c11;
+        }
+        h1, h2, h3 {
+            font-family: 'Noto Serif', serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-6 h-16 w-full bg-[#fcfae6] dark:bg-stone-900 shadow-none">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#385419] dark:text-[#a3b18a] hover:opacity-80 transition-opacity active:scale-95 duration-200" data-icon="menu">menu</button>
+<h1 class="font-serif text-2xl font-bold text-[#385419] dark:text-[#a3b18a] tracking-tight">Mamidi</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex gap-6 items-center px-4">
+<span class="font-sans text-base text-[#1c1c11] dark:text-stone-300 hover:opacity-80 transition-opacity cursor-pointer">Studio Dashboard</span>
+<span class="font-sans text-base bg-[#f6f4e1] text-[#385419] font-semibold rounded-lg px-3 py-1">Product Catalog</span>
+<span class="font-sans text-base text-[#1c1c11] dark:text-stone-300 hover:opacity-80 transition-opacity cursor-pointer">Order Ledger</span>
+</div>
+<img alt="Artisan profile" class="w-10 h-10 rounded-full object-cover border-2 border-primary-container" data-alt="Professional portrait of a master artisan woman with silver hair, warm lighting, creative studio background with ceramics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASTVvwTjLcPo-yXO8Je_Nq8FRsFBwaQk8v0r8jlCis9MlkWV-swe2ntfLHhaQ_YNQaXmhviWFnBkwfK0T_ftvgqz6l-t1elIKinCr9hMYondbp6xdT7DRe__C9wnRW3MnR5wZelFclbO90Lyt_b6LueVh3Rb5-MMONXbP9_wYShtnP0Ju-nCiV7DdpQGZQj4mW4Jg8zeeKQ27oFd9AyWg6jk9_EU40gF0DO7FNEl_MK9T9moXcluBOD9xkio03GZ7jSGgfJqyYQZdt"/>
+</div>
+</header>
+<main class="pt-24 px-6 md:px-12 max-w-7xl mx-auto">
+<!-- Dashboard Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+<div>
+<h2 class="text-4xl md:text-5xl font-headline text-on-surface mb-2">Product Catalog</h2>
+<p class="text-on-surface-variant font-body">Manage your handcrafted atelier collection</p>
+</div>
+<button class="group flex items-center gap-2 bg-gradient-to-r from-primary to-primary-container text-on-primary px-8 py-4 rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="font-label font-bold tracking-wide">ADD NEW PRODUCT</span>
+</button>
+</div>
+<!-- Filter Bar -->
+<div class="flex flex-wrap gap-4 mb-10 bg-surface-container-low p-2 rounded-2xl">
+<button class="px-6 py-2 bg-surface-container-lowest rounded-xl text-primary font-bold shadow-sm">All Products</button>
+<button class="px-6 py-2 hover:bg-surface-container-high rounded-xl text-on-surface-variant transition-colors">Calendars</button>
+<button class="px-6 py-2 hover:bg-surface-container-high rounded-xl text-on-surface-variant transition-colors">Ceramics</button>
+<button class="px-6 py-2 hover:bg-surface-container-high rounded-xl text-on-surface-variant transition-colors">Ornaments</button>
+<div class="ml-auto flex items-center bg-surface-container-highest px-4 rounded-xl border border-outline-variant/10">
+<span class="material-symbols-outlined text-on-surface-variant text-sm mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm font-body py-2 w-48" placeholder="Search collection..." type="text"/>
+</div>
+</div>
+<!-- Catalog Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-20">
+<!-- Featured Card (Large) -->
+<div class="md:col-span-8 group relative overflow-hidden bg-surface-container-lowest rounded-[2rem] shadow-sm transition-all hover:shadow-xl">
+<div class="grid md:grid-cols-2 h-full">
+<div class="relative h-64 md:h-full overflow-hidden">
+<img alt="Ceramic Vase" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Minimalist handmade ceramic vase on a textured beige surface with soft artistic shadows and organic shapes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBG5fQYvGGYM4ZfA_fAR0bgJi41NlPc5q2FphHoqy7RhVQZW35PgZlr7rqV0XiXbkChzDo1OjvS3_oSdttsaz3juqRs7LTU3dSZTXtQPDiTEoaIL6MaKQVYyXfCb5Goqjupeei2_xS0u3rUTM8fBpVE03lPPAKyPfRB5l1rxNnVrB3qCigo7naFJHh8ehb-dQs6rif0Tj2i392bm-RyToqbC5XiPOIZOUId4FEs22lYLpZM4IFTp2-hQonf3aRtuJzf4YPdFCXNVc5O"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary/90 backdrop-blur-md text-on-primary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Featured</span>
+</div>
+</div>
+<div class="p-10 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-3xl font-headline text-on-surface">Ethereal Clay Vessel</h3>
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-4 py-1 rounded-full text-xs font-bold font-label uppercase">In Stock (12)</span>
+</div>
+<p class="text-on-surface-variant font-body mb-6 leading-relaxed">Each vessel is hand-thrown in our Studio, featuring a unique glaze that mimics the morning mist over the Mamidi valleys.</p>
+<div class="flex items-center gap-8 mb-8">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">SKU</p>
+<p class="font-mono text-sm">MMD-CR-001</p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Price</p>
+<p class="font-bold text-lg text-primary">$185.00</p>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 bg-surface-container-high py-3 rounded-lg font-bold text-sm hover:bg-surface-container-highest transition-colors">Edit Product</button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant/30 rounded-lg text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Smaller Product Card -->
+<div class="md:col-span-4 bg-surface-container-low rounded-[2rem] p-6 flex flex-col">
+<div class="relative h-48 rounded-2xl overflow-hidden mb-6">
+<img alt="Artisan Calendar" class="w-full h-full object-cover" data-alt="Handcrafted luxury wall calendar with elegant typography and nature illustrations on heavy cream paper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMYAyF5k2TaP-WAzlAcJ3g-HfEAvuo7QQbAJ6lD3H4E3qiMUxRgunsZiUiHgjWBWR2BqrBgAv4ZYvlvGYdWRJNsuiu3nxpm_T8vLlZcnLlojRBzQXA95K8UfVf8vMrMm8_j-VoFGK0JYW5zBeQKZdy9-rScdsO4dlsBJyyHiM9mGWINRfHFgf2jIF_pi4dS1hP38hskJn0aLR98VTxJ-LN8_oE-aOr1EQPoWrfTjKVcLctDqEFfj_Frkt5GNmLWK6wO5bA8yAxXyU4"/>
+<div class="absolute top-3 right-3">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase">Low Stock (3)</span>
+</div>
+</div>
+<h3 class="text-xl font-headline text-on-surface mb-2">2024 Botanical Almanac</h3>
+<p class="text-sm text-on-surface-variant font-body mb-6">Limited edition letterpress printing.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-lg font-bold text-primary">$45.00</span>
+<button class="text-primary font-bold text-sm hover:underline decoration-2 underline-offset-4">Quick Edit</button>
+</div>
+</div>
+<!-- Product Row 2 -->
+<div class="md:col-span-4 bg-surface-container-low rounded-[2rem] p-6 flex flex-col">
+<div class="relative h-48 rounded-2xl overflow-hidden mb-6">
+<img alt="Glass Ornament" class="w-full h-full object-cover" data-alt="Delicate glass and brass handmade Christmas ornament with dried flowers inside, warm festive lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8X2uPKmmmCJDBRz_lw533_083hjli5RXNAym1cWrWuRM3NwUJXpGcwddBjCSQOKj_lzLwGFL9pFTcuAGENkd23EKJrA6ieqcMbObvmdxGmPaGSbq-ZG0wtMnGSjLqb1NGGoC2Vq-Xod4Ft8Z48_NLPyX0zUea4bb1c31v6Kg6lvfRyDbb43-9uZQO5ItCd3j4ZcCy0Xd-fxzwVfEZjM4p7x-o6CySUpR_j2f6ldElPWDwHH5APD_rpcWkcUDCD9P8s24tEhhx3UOa"/>
+</div>
+<h3 class="text-xl font-headline text-on-surface mb-2">Floral Solstice Orb</h3>
+<p class="text-sm text-on-surface-variant font-body mb-6">Preserved wildflowers in blown glass.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-lg font-bold text-primary">$28.00</span>
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase">In Stock (45)</span>
+</div>
+</div>
+<!-- Product Row 2 (Middle) -->
+<div class="md:col-span-4 bg-surface-container-low rounded-[2rem] p-6 flex flex-col">
+<div class="relative h-48 rounded-2xl overflow-hidden mb-6 bg-surface-container-highest flex items-center justify-center">
+<img alt="Studio Concept" class="w-full h-full object-cover grayscale opacity-60" data-alt="Minimalist pottery wheel in an artist's studio with natural light streaming through windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjg11RuGwrxgexGh3iOOcoLAQO-X6mY1MBzuZrSe8JtYWMTuBVJC7kIkuXldyk0oZebYnAtF-SscvXx2ID3GIokgrehRQTQXyvInz6hScmpsvWspiFalU2oaxk7e59rHhtVpt9m83r05e6I2OWDG8UMCLSml-IsucAUWiCzgkdDlYONOL8byNu_LfJ7OhMU7R1Ats7oajb6t3PUFDZOKWFanqUDaqg0PS9rOOxBsxdgl_1TMlaYd1MGTaMTXzER6YgzgXl0WpaEaEu"/>
+<div class="absolute inset-0 flex items-center justify-center bg-error-container/20 backdrop-blur-[2px]">
+<span class="bg-error text-on-error px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Out of Stock</span>
+</div>
+</div>
+<h3 class="text-xl font-headline text-on-surface mb-2">Terra Incense Burner</h3>
+<p class="text-sm text-on-surface-variant font-body mb-6">Sculptural basalt and brass interface.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-lg font-bold text-primary">$62.00</span>
+<button class="text-tertiary font-bold text-sm hover:underline decoration-2 underline-offset-4">Restock Alert</button>
+</div>
+</div>
+<!-- Product Row 2 (Right - Wide) -->
+<div class="md:col-span-4 bg-[#f0efdb] rounded-[2rem] p-8 flex flex-col justify-center border border-primary/5">
+<h3 class="text-2xl font-headline text-primary mb-4 leading-tight">Catalog Summary</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center pb-3 border-b border-outline-variant/20">
+<span class="text-sm font-body text-on-surface-variant">Active SKUs</span>
+<span class="font-bold text-on-surface">48</span>
+</div>
+<div class="flex justify-between items-center pb-3 border-b border-outline-variant/20">
+<span class="text-sm font-body text-on-surface-variant">Low Stock Alerts</span>
+<span class="font-bold text-secondary">3</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm font-body text-on-surface-variant">Total Value</span>
+<span class="font-bold text-on-surface">$14,240.00</span>
+</div>
+</div>
+<button class="mt-8 w-full py-3 bg-primary text-on-primary rounded-xl font-label text-xs font-bold tracking-widest uppercase hover:opacity-90">View Inventory Report</button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center pt-3 pb-8 px-4 bg-[#fcfae6]/90 dark:bg-stone-900/90 backdrop-blur-md shadow-[0_-4px_20px_rgba(28,28,17,0.06)] rounded-t-3xl border-t border-[#1c1c11]/5">
+<a class="flex flex-col items-center justify-center text-[#1c1c11]/60 dark:text-stone-400 px-6 py-1 hover:bg-[#f6f4e1] dark:hover:bg-stone-800 transition-transform duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="inventory_2">inventory_2</span>
+<span class="font-sans text-[11px] font-medium tracking-wide uppercase">Products</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#1c1c11]/60 dark:text-stone-400 px-6 py-1 hover:bg-[#f6f4e1] dark:hover:bg-stone-800 transition-transform duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="local_shipping">local_shipping</span>
+<span class="font-sans text-[11px] font-medium tracking-wide uppercase">Orders</span>
+</a>
+</nav>
+<!-- Contextual FAB (Responsive Only) -->
+<button class="md:hidden fixed right-6 bottom-24 w-16 h-16 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center z-50 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</body></html>

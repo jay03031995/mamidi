@@ -1,0 +1,251 @@
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#1c1c11",
+                        "on-secondary-fixed-variant": "#574500",
+                        "outline": "#74796b",
+                        "tertiary-fixed-dim": "#ffb68c",
+                        "surface-tint": "#49672a",
+                        "secondary": "#735c00",
+                        "on-tertiary-fixed": "#321200",
+                        "on-surface": "#1c1c11",
+                        "surface-variant": "#e5e3d0",
+                        "secondary-fixed": "#ffe088",
+                        "tertiary-fixed": "#ffdbc9",
+                        "inverse-surface": "#313124",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#ffdbc8",
+                        "inverse-primary": "#afd188",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e5e3d0",
+                        "primary": "#385419",
+                        "background": "#fcfae6",
+                        "on-tertiary-fixed-variant": "#753401",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#4f6d2f",
+                        "surface-container": "#f0efdb",
+                        "inverse-on-surface": "#f3f2de",
+                        "on-secondary-fixed": "#241a00",
+                        "primary-fixed": "#caeea1",
+                        "surface-container-low": "#f6f4e1",
+                        "surface-dim": "#dcdbc8",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#e9c349",
+                        "on-primary-container": "#caeea1",
+                        "surface-container-high": "#ebe9d6",
+                        "tertiary-container": "#9a511f",
+                        "on-primary-fixed": "#0f2000",
+                        "surface-bright": "#fcfae6",
+                        "tertiary": "#7c3a07",
+                        "surface": "#fcfae6",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#fed65b",
+                        "on-secondary-container": "#745c00",
+                        "on-primary-fixed-variant": "#324e14",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#44483d",
+                        "outline-variant": "#c4c8b9",
+                        "primary-fixed-dim": "#afd188"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+        .glass-panel {
+            background: rgba(252, 250, 230, 0.7);
+            backdrop-filter: blur(16px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fcfae6] dark:bg-stone-900 flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="text-[#385419] dark:text-[#a3b18a] hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="flex items-center gap-3">
+<img alt="Mamidi Logo" class="h-8 w-8 object-contain" data-alt="minimalist organic brand logo for a craft studio featuring elegant botanical line art in olive green" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCow6pNNm_gZc_WISbDWelYq9nueIagvngvcICIscKANbI6sS6spPR6h0W-DOAQPhJYkDIQiXPJtaD1Y842YL72HkpAXXHZgXY4fYnANbmBUuREzkfDl_uzfstncZMy2CGmQbJGXEnCYJv8ZO3zQKqpHOI0WEmOMHztFaURqf5JDiIZsDQDEPTKMQZAU3wwgeHtpitLYz9cUhjVdn8BytcFGlJFW-d0cdWI2EDfv4aRqExC6gnghwVz59y8M6Hk4XKPJsC19FF2dMSD"/>
+<span class="font-serif text-2xl font-bold text-[#385419] dark:text-[#a3b18a] tracking-tight">Mamidi</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex gap-6 items-center mr-8">
+<span class="text-[#385419] dark:text-[#a3b18a] font-serif text-base font-semibold cursor-pointer">Studio Dashboard</span>
+<span class="text-[#1c1c11] dark:text-stone-400 font-serif text-base cursor-pointer hover:opacity-80 transition-opacity">Product Catalog</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant/20">
+<img alt="Artisan Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a skilled female artisan in a sunlit studio with soft focused pottery in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjH_p1KH876fJuZ27dE8T9ecoP3Dlx9punhV3_5eQze5vToO_z58cK06FapTaLi8g9mRJyQKUptKmkG0yaZjKmHS6dfmk6jLypuGuQhm6KCITXW8_yVlqPBMxlBAjpU3ImdU9vl7iX_62e-XeFdfZLim9kWA2F98_KjQ6F2MD3k91CCcgUpqzBpyh97wDh50yXZlu0QVVxFbdqLW1GWJQ9alel-goVdDkfKeH1UE8hlB2ryqil_JKuP8U7oDutPY61yOWcHGUNl5Vx"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-4 md:px-8 max-w-6xl mx-auto">
+<!-- Header Section -->
+<div class="mb-12">
+<nav class="flex items-center gap-2 text-on-surface-variant text-sm mb-4">
+<span class="hover:text-primary cursor-pointer transition-colors">Catalog</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="font-medium text-on-surface">Add New Product</span>
+</nav>
+<h1 class="text-4xl md:text-5xl font-bold tracking-tight text-on-surface">Curate New Creation</h1>
+<p class="text-on-surface-variant mt-2 text-lg max-w-2xl">Translate your manual craft into the digital catalog. Every detail added here honors the artisan process.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Form Canvas -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Basic Information Section -->
+<section class="bg-surface-container-low rounded-xl p-8 transition-shadow hover:shadow-sm">
+<h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+                        Core Identity
+                    </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2 md:col-span-2">
+<label class="block text-sm font-medium text-on-surface-variant ml-1">Product Name</label>
+<input class="w-full bg-surface-container-highest border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary/20 transition-all text-on-surface placeholder:text-on-surface-variant/40" placeholder="e.g., Hand-Woven Indigo Throw" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-medium text-on-surface-variant ml-1">Category</label>
+<select class="w-full bg-surface-container-highest border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary/20 transition-all text-on-surface appearance-none">
+<option>Art</option>
+<option>Home</option>
+<option>Lifestyle</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-medium text-on-surface-variant ml-1">Price (USD)</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-highest border-none rounded-xl pl-8 pr-4 py-4 focus:ring-2 focus:ring-primary/20 transition-all text-on-surface placeholder:text-on-surface-variant/40" placeholder="0.00" type="number"/>
+</div>
+</div>
+<div class="space-y-2 md:col-span-2">
+<label class="block text-sm font-medium text-on-surface-variant ml-1">The Story (Description)</label>
+<textarea class="w-full bg-surface-container-highest border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary/20 transition-all text-on-surface placeholder:text-on-surface-variant/40 resize-none" placeholder="Describe the materials, the technique, and the time taken to create this piece..." rows="5"></textarea>
+</div>
+</div>
+</section>
+<!-- Media Section -->
+<section class="bg-surface-container-low rounded-xl p-8">
+<h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">image</span>
+                        Visual Narrative
+                    </h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Upload Trigger -->
+<div class="aspect-square rounded-xl border-2 border-dashed border-outline-variant/50 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-surface-container-high transition-colors group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">add_a_photo</span>
+<span class="text-xs font-medium text-on-surface-variant">Upload Images</span>
+</div>
+<!-- Image Placeholders (Styled as Gallery) -->
+<div class="aspect-square rounded-xl bg-surface-container-highest overflow-hidden relative group">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" data-alt="detailed close-up of indigo blue hand-dyed textile with intricate woven patterns and soft texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBhBxynDTr5qFTBUmuUjkjcibIUvOvu7DDR8KzurUd-iH9Me17Avwk_8P7a9SrjuISFoAuamBCkt3QsnU_4WE7nsufx_N30IfMkapt1jaRHIoLVxIbjXw0VoJtWPo46NSkkC6-x1uly22ZA5oP4hf_fdXks90wX9LnxY_4PEUSGKYgyu4LFYFLEMzc5xyvIbo2r6I3EedEvis1rLKSTFEs5c3BBPoZdFEq5BQpJ8h1XZ-QYYvdL-MH0daytCZ1HvdwiJLrAZTJJyVy"/>
+<button class="absolute top-2 right-2 w-6 h-6 bg-error/90 text-on-error rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-xs">close</span>
+</button>
+</div>
+<div class="aspect-square rounded-xl bg-surface-container-highest overflow-hidden relative group">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" data-alt="natural wood craft tools laying on a clean linen surface with soft afternoon shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDB84ZlNQ8Jmt6yMHXOkaF3vJJcxTrC_q_ZZ6_4GgNLpl0cesC8g4pPJR5597jF-CT3eAbosuze_3j7ohRxKaxMtoDm0YlMaeulwY1wNmxSU4itAMOjSszyyifiNFpl4mnHjo9jDG9V6xxTAg0jNNY5FxQ_6uA0iMPxzuVVr52MIo0iaglHQe6Vu2H6n1UvDB386rS6lQKBh1YWvd9GEsx0NjWvrwlarks6eEgHUt0yzU5tc66Om2jdAfwu2k3EkeN_FDHE0zqH-XG"/>
+<button class="absolute top-2 right-2 w-6 h-6 bg-error/90 text-on-error rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-xs">close</span>
+</button>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant/60 mt-4 italic">* High-resolution images capture the soul of the work. Aim for natural lighting.</p>
+</section>
+</div>
+<!-- Sidebar / Actions -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Preview Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-2xl overflow-hidden relative border border-outline-variant/10">
+<div class="aspect-[4/5] bg-surface-container-highest flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="artistic display of handmade ceramics and textiles in an elegant minimalist studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrM0jd5ec0BPEbTJoIaF5LLnHOxkCxCdmNXUAN5TX-f054uDVT2-ZHehtWaZED3Q-Ic2AIw3SsBu3qI8iPi20XgkExBq7BsrpJG06mP2gVeRn_zVFeNRklyj9DldXsMA-Jlqtdu333wCaTU2pqb7kQp2sWj1iEgmCgxsLRrO2SN2NJNZ7ylQp5RsYzcSX9oKAmMt5K09rkmdSbARwhJNgAuhoe7ERNgcC18enNGL_6SL85YChsISrYAgCrVY330gSVKowaUCM2y_xI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/40 to-transparent"></div>
+</div>
+<div class="p-6 relative">
+<div class="absolute -top-12 left-6 bg-primary px-3 py-1 rounded-full text-white text-[10px] tracking-widest uppercase font-bold">Preview</div>
+<h3 class="text-2xl font-bold mb-1">Untitled Masterpiece</h3>
+<p class="text-secondary font-semibold">$0.00</p>
+<div class="mt-4 flex gap-2">
+<span class="bg-surface-container px-2 py-1 rounded text-[10px] uppercase font-bold text-on-surface-variant">Draft</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[10px] uppercase font-bold text-on-surface-variant">Studio Pick</span>
+</div>
+</div>
+</div>
+<!-- Final Actions -->
+<div class="bg-surface-container-low rounded-xl p-6 space-y-4">
+<button class="w-full py-4 rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold tracking-wide shadow-lg shadow-primary/20 active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">publish</span>
+                        Publish to Gallery
+                    </button>
+<button class="w-full py-4 rounded-xl border border-outline-variant bg-transparent text-primary font-bold tracking-wide hover:bg-surface-container-high transition-colors">
+                        Save as Draft
+                    </button>
+<div class="pt-4 border-t border-outline-variant/20">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-5 h-5 rounded border-2 border-primary flex items-center justify-center transition-colors group-hover:bg-primary/10">
+<span class="material-symbols-outlined text-[14px] text-primary hidden">check</span>
+</div>
+<span class="text-sm text-on-surface-variant">Feature on Studio Homepage</span>
+</label>
+</div>
+</div>
+<!-- Artisan Tip -->
+<div class="bg-tertiary-container/10 border-l-4 border-tertiary-container p-4 rounded-r-lg">
+<p class="text-sm text-on-tertiary-fixed-variant italic">
+                        "The description is where the heart of the product lives. Share the story of its creation to connect deeply with your collectors."
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center pt-3 pb-8 px-4 bg-[#fcfae6]/90 backdrop-blur-md shadow-[0_-4px_20px_rgba(28,28,17,0.06)] rounded-t-3xl border-t border-[#1c1c11]/5">
+<a class="flex flex-col items-center justify-center bg-[#385419] text-[#fcfae6] rounded-xl px-6 py-1 transition-transform active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-sans text-[11px] font-medium tracking-wide uppercase mt-1">Products</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#1c1c11]/60 px-6 py-1 hover:bg-[#f6f4e1]" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-sans text-[11px] font-medium tracking-wide uppercase mt-1">Orders</span>
+</a>
+</nav>
+<!-- Background Subtle Watermark -->
+<div class="fixed bottom-10 right-10 opacity-[0.03] pointer-events-none select-none">
+<img alt="" class="w-64 h-64 grayscale" data-alt="large translucent brand mark for background watermark effect" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmpXcpquXCnaTfix5GWCndaKyk-yw7PSDPmtkOjAaGKl6P4RW1LrueQ4ReyYue-ft7qajk34JKfwDoUziM1tPgcv7h7eSJk_f2CiF0hUvp7CpqmIMMyOz8FnDk3Y2JFi5UYcfmgcJ31zwaYJVqyXaW0wn-BRzYHdTxZSqYpTN7tfW5lpHK3SgoRDHtnOGrEt-_NubKOFJtEradjD2y_5O-gOtEpqoXbWzCXL6uCFZkOrehr70mlolyrDBIoMhHlTSNINpPbDze5hpf"/>
+</div>
+</body></html>

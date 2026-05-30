@@ -1,5 +1,30 @@
 import React, { useState } from "react";
 import { SectionCard, PrimaryButton, GhostButton } from "./DashboardShell";
+import { getImageUrl } from "../../utils/productImages";
+
+const SIDE_IMAGE_LIMIT = 12;
+
+function createFormState(initialValues = {}) {
+  const gallery = (initialValues.gallery || initialValues.sideImages || []).filter(Boolean);
+
+  return {
+    title: "",
+    category: "",
+    price: "",
+    description: "",
+    main: "",
+    mainFiles: [],
+    occasion: "",
+    material: "",
+    colour: "",
+    dimensions: "",
+    pages: "",
+    print: "",
+    ...initialValues,
+    gallery,
+    galleryFiles: gallery.map((_, index) => initialValues.galleryFiles?.[index] || []),
+  };
+}
 
 export function ProductForm({
   initialValues = {},
@@ -9,32 +34,37 @@ export function ProductForm({
   categories = [],
   onAddCategory,
 }) {
-  const [form, setForm] = useState({
-    title: "",
-    category: "",
-    price: "",
-    description: "",
-    main: "",
-    gallery: ["", "", "", ""],
-    occasion: "",
-    material: "",
-    colour: "",
-    dimensions: "",
-    pages: "",
-    print: "",
-    ...initialValues,
-  });
+  const [form, setForm] = useState(() => createFormState(initialValues));
 
   const updateField = (key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
-  const updateGallery = (index, value) => {
+  const updateGalleryFiles = (index, files) => {
     setForm((prev) => {
-      const gallery = [...prev.gallery];
-      gallery[index] = value;
-      return { ...prev, gallery };
+      const galleryFiles = [...prev.galleryFiles];
+      galleryFiles[index] = files;
+      return { ...prev, galleryFiles };
     });
+  };
+
+  const addGallerySlot = () => {
+    setForm((prev) => {
+      if (prev.gallery.length >= SIDE_IMAGE_LIMIT) return prev;
+      return {
+        ...prev,
+        gallery: [...prev.gallery, ""],
+        galleryFiles: [...prev.galleryFiles, []],
+      };
+    });
+  };
+
+  const removeGallerySlot = (index) => {
+    setForm((prev) => ({
+      ...prev,
+      gallery: prev.gallery.filter((_, itemIndex) => itemIndex !== index),
+      galleryFiles: prev.galleryFiles.filter((_, itemIndex) => itemIndex !== index),
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -86,7 +116,7 @@ export function ProductForm({
                 )}
               </div>
             </Field>
-            <Field label="Price (USD)">
+            <Field label="Price">
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#44483d]">
                   ₹
@@ -124,20 +154,36 @@ export function ProductForm({
             <UploadTile
               label="Main Image"
               value={form.main}
-              onChange={(url) => updateField("main", url)}
+              files={form.mainFiles}
+              multiple={false}
+              onFilesChange={(files) => updateField("mainFiles", files.slice(0, 1))}
             />
             {form.gallery.map((src, idx) => (
               <UploadTile
                 key={idx}
                 label={`Gallery ${idx + 1}`}
                 value={src}
-                onChange={(url) => updateGallery(idx, url)}
+                files={form.galleryFiles[idx]}
+                multiple={false}
+                onRemove={() => removeGallerySlot(idx)}
+                onFilesChange={(files) => updateGalleryFiles(idx, files.slice(0, 1))}
               />
             ))}
           </div>
-          <p className="text-xs text-[#44483d]/70 mt-4 italic">
-            * Provide hosted image URLs for now. Hook this to an uploader when available.
-          </p>
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <p className="text-sm text-[#44483d]">
+              {form.gallery.length} / {SIDE_IMAGE_LIMIT} side images
+            </p>
+            <button
+              type="button"
+              onClick={addGallerySlot}
+              disabled={form.gallery.length >= SIDE_IMAGE_LIMIT}
+              className="rounded-lg border border-[#c4c8b9] px-4 py-2 text-sm font-semibold text-[#385419] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Add Side Image
+            </button>
+          </div>
+         
         </SectionCard>
 
         <SectionCard className="bg-white">
@@ -180,8 +226,14 @@ export function ProductForm({
       <div className="lg:col-span-4 space-y-6">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-[#c4c8b9]/20">
           <div className="aspect-[4/5] bg-[#f0efdb] flex items-center justify-center">
-            {form.main ? (
-              <img src={form.main} alt="preview" className="w-full h-full object-cover" />
+            {form.mainFiles?.length ? (
+              <img
+                src={URL.createObjectURL(form.mainFiles[0])}
+                alt="preview"
+                className="w-full h-full object-cover"
+              />
+            ) : form.main && getImageUrl(form.main) ? (
+              <img src={getImageUrl(form.main)} alt="preview" className="w-full h-full object-cover" />
             ) : (
               <div className="text-[#44483d] text-sm">Product preview</div>
             )}
@@ -224,26 +276,53 @@ function Field({ label, children, span }) {
   );
 }
 
-function UploadTile({ label, value, onChange }) {
+
+function UploadTile({ label, value, files = [], onFilesChange, onRemove, multiple = true }) {
+  const preview = files?.length
+    ? URL.createObjectURL(files[0])
+    : getImageUrl(value);
+
   return (
-    <div className="aspect-square rounded-xl border-2 border-dashed border-[#c4c8b9] flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-[#f0efdb] transition-colors p-3">
-      {value ? (
-        <img src={value} alt={label} className="w-full h-full object-cover rounded-lg" />
-      ) : (
-        <>
-          <span className="material-symbols-outlined text-[#44483d]">add_a_photo</span>
-          <span className="text-xs font-medium text-[#44483d]">{label}</span>
-        </>
-      )}
+    <div className="min-h-[260px] rounded-xl border-2 border-dashed border-[#c4c8b9] flex flex-col gap-3 p-3">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-xs font-semibold text-[#44483d]">{label}</span>
+        {onRemove && (
+          <button
+            type="button"
+            onClick={onRemove}
+            className="text-xs font-semibold text-[#ba1a1a] hover:underline"
+          >
+            Remove
+          </button>
+        )}
+      </div>
+
+      <div className="h-28 rounded-lg bg-white flex items-center justify-center overflow-hidden">
+        {preview ? (
+          <img src={preview} alt={label} className="w-full h-full object-cover" />
+        ) : (
+          <div className="flex flex-col items-center gap-2">
+            <span className="material-symbols-outlined">add_a_photo</span>
+            <span className="text-xs">{label}</span>
+          </div>
+        )}
+      </div>
+
       <input
-        className="w-full text-xs text-[#44483d] bg-white border border-[#c4c8b9]/60 rounded-md px-2 py-1"
-        placeholder="https://image.url"
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
+        type="file"
+        accept="image/*"
+        multiple={multiple}
+        onChange={(e) => onFilesChange?.(Array.from(e.target.files || []))}
       />
+
+      {files?.length > 0 && (
+        <p className="text-xs">{files.length} file(s) selected</p>
+      )}
     </div>
   );
 }
+
+
 
 function AttributeInput({ label, value, onChange }) {
   return (

@@ -35,6 +35,56 @@
 
     <!-- Robots -->
     <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large" />
+
+    <!-- Brand / locale / geo -->
+    <meta name="author" content="Mamidi" />
+    <meta name="theme-color" content="#1A2C08" />
+    <meta name="keywords" content="Madhubani art, Mithila painting, hand-painted calendars, Indian folk art, handmade keepsakes, eco-friendly gifts, Mamidi" />
+    <meta name="geo.region" content="IN" />
+    <meta name="geo.placename" content="India" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:site_name" content="Mamidi" />
+
+    <!-- Structured data: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Mamidi",
+      "url": "https://mamidi.in/",
+      "logo": "https://mamidi.in/mamidi_profile.jpeg",
+      "image": "https://mamidi.in/mamidi_profile.jpeg",
+      "description": "Mamidi creates hand-painted Madhubani (Mithila) folk-art calendars, keepsakes and gifts, crafted in India.",
+      "email": "mamidi.artstore@gmail.com",
+      "areaServed": "IN",
+      "address": { "@type": "PostalAddress", "addressCountry": "IN" },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-98858-66281",
+        "contactType": "customer service",
+        "areaServed": "IN",
+        "availableLanguage": ["en", "hi"]
+      },
+      "sameAs": ["https://www.instagram.com/mamidi___"]
+    }
+    </script>
+
+    <!-- Structured data: WebSite + search action -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Mamidi",
+      "url": "https://mamidi.in/",
+      "inLanguage": "en-IN",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://mamidi.in/shop?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

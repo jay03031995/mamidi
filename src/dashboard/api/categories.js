@@ -13,3 +13,16 @@ export async function createCategory(name) {
     body: { name },
   });
 }
+
+export async function updateCategory(id, name) {
+  return apiFetch(`${BASE}/${id}`, {
+    method: "PUT",
+    body: { name },
+  });
+}
+
+export async function deleteCategory(id) {
+  return apiFetch(`${BASE}/${id}`, {
+    method: "DELETE",
+  });
+}

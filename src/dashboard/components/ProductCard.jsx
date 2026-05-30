@@ -1,18 +1,22 @@
 import React from "react";
 import { Badge, GhostButton } from "./DashboardShell";
+import { getImageUrl } from "../../utils/productImages";
 
 export function FeaturedProductCard({ product, onEdit, onDelete }) {
   if (!product) return null;
   const { title, main, description, price, _id, stock = 0, sku = "" } = product;
+  const mainImage = getImageUrl(main);
   return (
     <div className="md:col-span-7 group relative overflow-hidden bg-white rounded-2xl shadow-sm transition-all hover:shadow-xl">
       <div className="grid md:grid-cols-2 h-full">
         <div className="relative h-60 md:h-72 overflow-hidden">
-          <img
-            src={main}
-            alt={title}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
+          {mainImage && (
+            <img
+              src={mainImage}
+              alt={title}
+              className="absolute inset-0 w-full h-full bg-white object-contain p-2 transition-transform duration-700 group-hover:scale-105"
+            />
+          )}
           <div className="absolute top-4 left-4">
             <Badge>Featured</Badge>
           </div>
@@ -61,6 +65,7 @@ export function FeaturedProductCard({ product, onEdit, onDelete }) {
 
 export function ProductCard({ product, onQuickEdit, onDelete }) {
   const { title, main, description, price, stockStatus = "" } = product;
+  const mainImage = getImageUrl(main);
   const badgeTone =
     stockStatus === "low"
       ? "bg-[#fed65b] text-[#745c00]"
@@ -69,7 +74,7 @@ export function ProductCard({ product, onQuickEdit, onDelete }) {
   return (
     <div className="bg-[#f6f4e1] rounded-[2rem] p-6 flex flex-col shadow-sm">
       <div className="relative h-48 rounded-2xl overflow-hidden mb-6">
-        <img src={main} alt={title} className="w-full h-full object-cover" />
+        {mainImage && <img src={mainImage} alt={title} className="w-full h-full bg-white object-contain p-2" />}
         {stockStatus ? (
           <span className={`absolute top-3 right-3 ${badgeTone} px-3 py-1 rounded-full text-[10px] font-bold uppercase`}>
             {stockStatus === "low" ? "Low Stock" : "In Stock"}

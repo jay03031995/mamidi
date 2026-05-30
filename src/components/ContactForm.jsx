@@ -1,5 +1,21 @@
 import React, { useState } from "react";
-import { FaWhatsapp, FaEnvelope, FaInstagram } from "react-icons/fa";
+import { FaEnvelope, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import processImage from "../assets/process1.jpg";
+
+const steps = [
+  {
+    title: "Share Your Story",
+    text: "Tell us the occasion, recipient, and ideas you have in mind.",
+  },
+  {
+    title: "We Design for You",
+    text: "Our artists shape a thoughtful concept for your feedback.",
+  },
+  {
+    title: "Delivered with Love",
+    text: "Your piece is handcrafted and packed with care.",
+  },
+];
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +26,6 @@ const ContactForm = () => {
     message: "",
   });
 
-  // handle input change
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -18,7 +33,6 @@ const ContactForm = () => {
     });
   };
 
-  // handle submit → WhatsApp
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -35,7 +49,7 @@ Message:
 ${message}
     `;
 
-    const whatsappURL = `https://wa.me/916304492660?text=${encodeURIComponent(
+    const whatsappURL = `https://wa.me/919885866281?text=${encodeURIComponent(
       text
     )}`;
 
@@ -43,129 +57,116 @@ ${message}
   };
 
   return (
-    <section id="contact" className="bg-[#C9E8F3] px-4 md:px-8 py-12">
-      
-      {/* Heading */}
-      <div className="flex justify-center">
-        <div className="w-full md:w-[422px] text-center">
-          <h3 className="text-[28px] md:text-[40px] font-[600] mb-3 text-gray-900">
-            We’re Here to Listen
-          </h3>
-          <p className="mb-8 text-gray-700 text-[15px] md:text-[16px] font-[400]">
-            Have something to share, ask, or co-create? Reach out and we’ll get
-            back with warmth, care, and clarity.
-          </p>
+    <section id="contact" className="bg-[#3E5E14]">
+      <div className="grid min-h-[620px] lg:grid-cols-2">
+        <div
+          data-reveal
+          className="group min-h-[300px] translate-y-5 overflow-hidden bg-[#1A2C08] opacity-0 transition-all duration-700 lg:min-h-full"
+        >
+          <img
+            src={processImage}
+            alt="Mamidi custom artwork process"
+            className="h-full w-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
+          />
         </div>
-      </div>
 
-      {/* Main Grid */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-        
-        {/* Left Side */}
-        <div>
-          <p className="text-sm mb-3 text-gray-600">You can reach us anytime</p>
+        <div className="flex flex-col justify-center px-5 py-16 sm:px-10 lg:px-14">
+          <div data-reveal className="translate-y-5 opacity-0 transition-all duration-700">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/55">
+              Bespoke Gifting
+            </p>
+            <h2 className="mt-5 font-headline text-4xl leading-[0.98] text-[#FDFCF5] sm:text-5xl">
+              Make it <br />
+              <em>truly yours</em>
+            </h2>
+            <p className="mt-6 max-w-xl text-base font-light leading-8 text-white/65">
+              Have something to share, ask, or co-create? Reach out and we will
+              respond with warmth, care, and clarity.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-4">
+            {steps.map((step, index) => (
+              <div
+                key={step.title}
+                data-reveal
+                style={{ transitionDelay: `${index * 70}ms` }}
+                className="flex translate-y-5 gap-4 opacity-0 transition-all duration-700"
+              >
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/25 text-[11px] font-bold text-white/75">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-[#FDFCF5]">{step.title}</p>
+                  <p className="mt-1 text-xs font-light leading-6 text-white/50">
+                    {step.text}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
 
           <form
+            data-reveal
             onSubmit={handleSubmit}
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            className="mt-10 grid translate-y-5 grid-cols-1 gap-4 opacity-0 transition-all duration-700 sm:grid-cols-2"
           >
-            <input
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              value={formData.firstName}
-              onChange={handleChange}
-              className="p-3 border border-gray-400 rounded w-full"
-              required
-            />
-
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-              value={formData.lastName}
-              onChange={handleChange}
-              className="p-3 border border-gray-400 rounded w-full"
-            />
-
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              className="p-3 border border-gray-400 rounded w-full"
-              required
-            />
-
-            <input
-              type="text"
-              name="phone"
-              placeholder="Contact Number"
-              value={formData.phone}
-              onChange={handleChange}
-              className="p-3 border border-gray-400 rounded w-full"
-              required
-            />
+            {[
+              { name: "firstName", placeholder: "First Name", required: true },
+              { name: "lastName", placeholder: "Last Name" },
+              { name: "email", placeholder: "Email", type: "email", required: true },
+              { name: "phone", placeholder: "Contact Number", required: true },
+            ].map((field) => (
+              <input
+                key={field.name}
+                type={field.type || "text"}
+                name={field.name}
+                placeholder={field.placeholder}
+                value={formData[field.name]}
+                onChange={handleChange}
+                required={field.required}
+                className="w-full border border-white/20 bg-transparent px-4 py-3 text-sm text-[#FDFCF5] placeholder:text-white/35 transition-all duration-300 focus:border-[#C8A020] focus:outline-none"
+              />
+            ))}
 
             <textarea
               name="message"
               placeholder="Message"
               value={formData.message}
               onChange={handleChange}
-              className="p-3 border border-gray-400 rounded md:col-span-2 w-full"
               rows="4"
               required
-            ></textarea>
+              className="w-full border border-white/20 bg-transparent px-4 py-3 text-sm text-[#FDFCF5] placeholder:text-white/35 transition-all duration-300 focus:border-[#C8A020] focus:outline-none sm:col-span-2"
+            />
 
             <button
               type="submit"
-              className="bg-[#2D3E50] text-white py-2 px-6 rounded md:col-span-2 w-full hover:bg-[#1f2d3a] transition"
+              className="border-2 border-[#C8A020] bg-[#C8A020] px-7 py-3 text-[11px] font-bold uppercase tracking-[0.22em] text-[#1A2C08] transition-all duration-300 hover:bg-transparent hover:text-[#C8A020] sm:col-span-2"
             >
-              Submit
+              Start a custom order
             </button>
           </form>
-        </div>
 
-        {/* Right Side */}
-        <div className="flex flex-col items-center justify-center w-full md:w-[510px]">
-          
-          <div className="bg-white/30 p-6 rounded-md shadow-md mb-6 text-center w-full max-w-[330px] flex justify-center items-center">
-            <div className="w-full md:w-[195px]">
-              <h4 className="font-bold text-gray-800 mb-2">MAMIDI</h4>
-              <p className="text-gray-600 text-sm">
-                “Where every print tells a story, and every page holds a piece of nature.”
-              </p>
-            </div>
+          <div
+            data-reveal
+            className="mt-8 flex translate-y-5 gap-3 opacity-0 transition-all duration-700"
+          >
+            {[
+              { icon: <FaWhatsapp />, link: "https://wa.me/919885866281" },
+              { icon: <FaEnvelope />, link: "mailto:mamidi.artstore@gmail.com" },
+              { icon: <FaInstagram />, link: "https://www.instagram.com/mamidi___" },
+            ].map((item, index) => (
+              <a
+                key={index}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 w-10 items-center justify-center border border-white/15 text-[#FDFCF5] transition-all duration-300 hover:border-[#C8A020] hover:bg-[#C8A020]/10 hover:text-[#C8A020]"
+              >
+                {item.icon}
+              </a>
+            ))}
           </div>
-
-          {/* Social Icons */}
-          <div className="flex gap-6">
-
-            <a
-              href="https://wa.me/916304492660"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/30 shadow hover:bg-gray-100 transition"
-            >
-              <FaWhatsapp className="text-[#2D3E50]" />
-            </a>
-
-            <a
-              href="mailto:mamidi.artstore@gmail.com"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/30 shadow hover:bg-gray-100 transition"
-            >
-              <FaEnvelope className="text-[#2D3E50]" />
-            </a>
-
-            <a
-              href="https://www.instagram.com/mamidi___?igsh=MTRmMnNreDd0bGJwcQ%3D%3D&utm_source=qr"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/30 shadow hover:bg-gray-100 transition"
-            >
-              <FaInstagram className="text-[#2D3E50]" />
-            </a>
-          </div>
-
         </div>
       </div>
     </section>

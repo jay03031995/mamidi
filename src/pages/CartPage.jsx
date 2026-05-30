@@ -1,6 +1,7 @@
 import React from "react";
 import { useCart } from "../contexts/CartContext";
 import { useNavigate } from "react-router-dom";
+import { getImageUrl } from "../utils/productImages";
 
 const CartPage = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
@@ -40,9 +41,9 @@ const CartPage = () => {
                   <td className="flex items-center gap-4 p-6">
                     <span className="text-gray-500">{index + 1}</span>
                     <img
-                      src={item.main}
+                      src={getImageUrl(item.main)}
                       alt={item.title}
-                      className="w-20 h-20 object-cover border"
+                      className="h-20 w-20 shrink-0 rounded-md border bg-white object-contain p-1"
                     />
                     <span className="font-medium">{item.title}</span>
                   </td>
@@ -92,13 +93,13 @@ const CartPage = () => {
 
       {/* ✅ Mobile Card Layout */}
       <div className="md:hidden space-y-4">
-        {cart.map((item, index) => (
+        {cart.map((item) => (
           <div key={item._id} className="bg-white shadow rounded p-4 border">
             <div className="flex gap-4">
               <img
-                src={item.main}
+                src={getImageUrl(item.main)}
                 alt={item.title}
-                className="w-24 h-24 object-cover border rounded"
+                className="h-24 w-24 shrink-0 rounded border bg-white object-contain p-1"
               />
               <div>
                 <h2 className="font-semibold text-sm">{item.title}</h2>
@@ -166,13 +167,17 @@ const CartPage = () => {
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
-            <button className="border px-6 py-3 text-sm w-full sm:w-auto">
+            <button
+              onClick={() => navigate("/shop")}
+              className="rounded border border-[#2F5965] px-6 py-3 text-sm text-[#2F5965] transition hover:bg-[#2F5965] hover:text-white w-full sm:w-auto"
+            >
               Continue Shopping
             </button>
 
             <button
               onClick={() => navigate("/checkout")}
-              className="bg-[#2F5965] text-white px-6 py-3 text-sm w-full sm:w-auto"
+              disabled={cart.length === 0}
+              className="rounded bg-[#2F5965] text-white px-6 py-3 text-sm transition hover:bg-[#264a54] disabled:opacity-50 w-full sm:w-auto"
             >
               Proceed to Checkout
             </button>

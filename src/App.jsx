@@ -13,6 +13,7 @@ import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import FAQ from "./pages/FAQ";
 import {
   ProductCatalog,
   AddProduct,
@@ -32,9 +33,10 @@ function App() {
           <Route path="shop" element={<Shop />} />
           <Route path="contact" element={<Contact />} />
           <Route path="about" element={<About />} />
-          <Route path="product/:id" element={<ProductDetail/>}/>
+          <Route path="product/:slug" element={<ProductDetail/>}/>
           <Route path="cart" element={<CartPage/>}/>
           <Route path="checkout" element={<Checkout/>}/>
+          <Route path="/faq" element={<FAQ />} />
         </Route>
 
         {/* Auth */}

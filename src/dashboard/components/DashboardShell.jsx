@@ -5,7 +5,6 @@ import {
   MdAnalytics,
 } from "react-icons/md";
 import mamidiprofile from "../../assets/mamidi_profile.jpeg";
-import { palette } from "../constants/palette";
 
 const navItems = [
   { label: "Product Catalog", href: "/dashboard/catalog" },

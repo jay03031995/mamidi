@@ -2,12 +2,11 @@ import React from "react";
 import { useCart } from "../contexts/CartContext"; // adjust path
 import { useNavigate } from "react-router-dom";
 
-const Addtocart = ({ product, quantity = 1 }) => {
+const Addtocart = ({ product, quantity = 1, className = "" }) => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
   const handleAddToCart = () => {
-    console.log("Adding to cart:", product); // debug
     addToCart(product, quantity);
     navigate("/cart"); // redirect to cart page
   };
@@ -15,7 +14,7 @@ const Addtocart = ({ product, quantity = 1 }) => {
   return (
     <button
       onClick={handleAddToCart}
-      className="flex-1 py-2 text-[#2F5965] border border-[#2F5965] hover:bg-gray-700 transition hover:text-white"
+      className={`inline-flex w-full flex-1 items-center justify-center whitespace-nowrap border border-[#1A2C08] px-4 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#1A2C08] transition-all duration-300 hover:bg-[#1A2C08] hover:text-[#FDFCF5] ${className}`}
     >
       Add to Cart
     </button>

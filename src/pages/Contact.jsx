@@ -1,5 +1,33 @@
 import React, { useState } from "react";
 import { Phone, Mail, Camera } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
+import Seo from "../components/Seo";
+import Breadcrumbs from "../components/Breadcrumbs";
+import { WHATSAPP_NUMBER, whatsappLink } from "../constants/site";
+
+const CONTACT_INFO = [
+  {
+    icon: <Phone size={18} />,
+    title: "Phone / WhatsApp",
+    value: "+91 98858 66281",
+    link: `tel:+${WHATSAPP_NUMBER}`,
+  },
+  {
+    icon: <Mail size={18} />,
+    title: "Email",
+    value: "mamidi.artstore@gmail.com",
+    link: "mailto:mamidi.artstore@gmail.com",
+  },
+  {
+    icon: <Camera size={18} />,
+    title: "Instagram",
+    value: "@mamidi___",
+    link: "https://www.instagram.com/mamidi___",
+  },
+];
+
+const inputClass =
+  "w-full rounded-lg border border-[#D8DEC4] bg-white px-4 py-3 text-sm text-[#1A2C08] outline-none transition focus:border-[#C8A020] focus:ring-2 focus:ring-[#C8A020]/20";
 
 const Contact = () => {
   const [form, setForm] = useState({
@@ -18,161 +46,139 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const whatsappNumber = "916304492660";
+    const text = `🌸 *New Enquiry — Mamidi*
 
-    const text = `📩 *New Contact Message*
+👤 ${form.firstName} ${form.lastName}
+📧 ${form.email}
+📞 ${form.phone}
 
-👤 Name: ${form.firstName} ${form.lastName}
-📧 Email: ${form.email}
-📞 Phone: ${form.phone}
+📝 *Subject:* ${form.subject || "—"}
 
-📝 Subject: ${form.subject}
-
-💬 Message:
 ${form.message}`;
 
-    const encodedText = encodeURIComponent(text);
-
-    const appLink = `whatsapp://send?phone=${whatsappNumber}&text=${encodedText}`;
-    const webLink = `https://wa.me/${whatsappNumber}?text=${encodedText}`;
-
-    window.location.href = appLink;
-
-    setTimeout(() => {
-      window.open(webLink, "_blank");
-    }, 1500);
+    // Universal wa.me link (works on mobile app + desktop web, no error popup)
+    window.open(whatsappLink(text), "_blank", "noopener,noreferrer");
   };
 
   return (
-    <div className="bg-[#F5FDFF] text-gray-800">
-      <section className="py-8 px-4 sm:px-6">
-        <h1 className="text-xl sm:text-2xl font-semibold text-center mb-6">
-          CONTACT US
-        </h1>
+    <div className="bg-[#fcfbe6] text-[#1A2C08]">
+      <Seo
+        title="Contact Mamidi — Custom Madhubani Orders & Enquiries"
+        description="Get in touch with Mamidi for custom Madhubani art, bulk orders, and enquiries. Reach us on WhatsApp, email, or Instagram — handcrafted in India."
+        path="/contact"
+      />
 
-        {/* Contact Info */}
-        <div className="flex flex-col md:flex-row justify-center items-center md:space-x-20 space-y-6 md:space-y-0 mb-10">
+      <div className="mx-auto max-w-5xl px-6 pt-6">
+        <Breadcrumbs items={[{ name: "Home", path: "/" }, { name: "Contact" }]} />
+      </div>
 
-          {/* Phone */}
-          <div className="text-center group cursor-pointer">
-            <h3 className="font-semibold text-base sm:text-lg flex items-center justify-center gap-2">
-              <Phone size={18} className="text-[#1d4e56]" />
-              PHONE
-            </h3>
-            <a
-              href="tel:+916304492660"
-              className="text-sm sm:text-base text-blue-600 group-hover:underline"
-            >
-              +91 6304492660
-            </a>
-          </div>
-
-          {/* Email */}
-          <div className="text-center group cursor-pointer">
-            <h3 className="font-semibold text-base sm:text-lg flex items-center justify-center gap-2">
-              <Mail size={18} className="text-[#1d4e56]" />
-              EMAIL
-            </h3>
-            <a
-              href="mailto:mamidi.artstore@gmail.com"
-              className="text-sm sm:text-base text-blue-600 group-hover:underline"
-            >
-              mamidi.artstore@gmail.com
-            </a>
-          </div>
-
-          {/* Instagram */}
-          <div className="text-center group cursor-pointer">
-            <h3 className="font-semibold text-base sm:text-lg flex items-center justify-center gap-2">
-              <Camera size={18} className="text-[#1d4e56]" />
-              INSTAGRAM
-            </h3>
-            <a
-              href="https://www.instagram.com/mamidi___"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm sm:text-base text-blue-600 group-hover:underline"
-            >
-              @mamidi___
-            </a>
-          </div>
-
+      <section className="mx-auto max-w-5xl px-6 py-12 md:py-16">
+        {/* HEADING */}
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.24em] text-[#C8A020]">
+            Get in touch
+          </p>
+          <h1 className="font-headline text-4xl leading-[1.02] text-[#1A2C08] md:text-5xl">
+            Let's create something{" "}
+            <em className="text-[#C8A020]">together</em>
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[#556343] md:text-base">
+            Questions, custom Madhubani orders, or bulk gifting — reach out and
+            we'll respond with warmth, care, and clarity.
+          </p>
         </div>
 
-        <hr className="border-gray-300 mb-10" />
+        {/* CONTACT INFO */}
+        <div className="mb-12 grid gap-4 sm:grid-cols-3">
+          {CONTACT_INFO.map((item) => (
+            <a
+              key={item.title}
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center gap-2 rounded-2xl border border-[#E2DDC9] bg-white/70 px-5 py-6 text-center transition hover:-translate-y-1 hover:border-[#C8A020] hover:shadow-[0_14px_40px_rgba(26,44,8,0.08)]"
+            >
+              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1A2C08] text-[#C8A020] transition group-hover:scale-105">
+                {item.icon}
+              </span>
+              <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[#8A9A6A]">
+                {item.title}
+              </p>
+              <p className="text-sm font-medium text-[#1A2C08] group-hover:text-[#A88018]">
+                {item.value}
+              </p>
+            </a>
+          ))}
+        </div>
 
-        {/* Contact Form */}
-        <div className="max-w-2xl mx-auto bg-[#f0f7f8] p-6 sm:p-8 rounded-lg shadow-sm">
-          <h2 className="text-center text-base sm:text-lg font-semibold mb-6">
-            Send Us A Message
+        {/* FORM CARD */}
+        <div className="mx-auto max-w-3xl rounded-2xl border border-[#E2DDC9] bg-white p-6 shadow-[0_10px_40px_rgba(26,44,8,0.06)] md:p-10">
+          <h2 className="mb-6 text-center font-headline text-2xl text-[#1A2C08]">
+            Send us a message
           </h2>
 
           <form className="grid gap-4" onSubmit={handleSubmit}>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid gap-4 md:grid-cols-2">
               <input
                 name="firstName"
-                type="text"
                 placeholder="First Name"
-                className="border p-2 rounded w-full text-sm sm:text-base"
                 onChange={handleChange}
                 required
+                className={inputClass}
               />
               <input
                 name="lastName"
-                type="text"
                 placeholder="Last Name"
-                className="border p-2 rounded w-full text-sm sm:text-base"
                 onChange={handleChange}
+                className={inputClass}
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid gap-4 md:grid-cols-2">
               <input
                 name="email"
                 type="email"
                 placeholder="Email"
-                className="border p-2 rounded w-full text-sm sm:text-base"
                 onChange={handleChange}
                 required
+                className={inputClass}
               />
               <input
                 name="phone"
-                type="tel"
                 placeholder="Phone Number"
-                className="border p-2 rounded w-full text-sm sm:text-base"
                 onChange={handleChange}
                 required
+                className={inputClass}
               />
             </div>
 
             <input
               name="subject"
-              type="text"
               placeholder="Subject"
-              className="border p-2 rounded w-full text-sm sm:text-base"
               onChange={handleChange}
+              className={inputClass}
             />
 
             <textarea
               name="message"
               rows="4"
-              placeholder="Message"
-              className="border p-2 rounded w-full text-sm sm:text-base"
+              placeholder="Tell us about your idea…"
               onChange={handleChange}
               required
-            ></textarea>
+              className={inputClass}
+            />
 
             <button
               type="submit"
-              className="bg-[#1d4e56] text-white px-6 py-2 rounded hover:bg-[#163c42] w-full sm:w-fit mx-auto transition"
+              className="mt-1 inline-flex items-center justify-center gap-2 rounded-lg bg-[#25D366] px-6 py-3.5 font-semibold text-[#0b3d1f] transition hover:bg-[#1ebe5a]"
             >
-              Send Message on WhatsApp
+              <FaWhatsapp className="text-lg" />
+              Send via WhatsApp
             </button>
           </form>
 
-          <p className="text-center text-green-600 text-sm mt-4">
-            After clicking, tap <strong>Send</strong> on WhatsApp to complete.
+          <p className="mt-4 text-center text-xs text-[#8A9A6A]">
+            Tapping send opens WhatsApp with your message ready to go.
           </p>
         </div>
       </section>

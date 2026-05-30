@@ -8,9 +8,10 @@ import {
   getActivityFeed,
 } from "../api/analytics";
 import { useApiResource } from "../hooks/useApiResource";
-import Card1 from "../../assets/Card1.png";
-import Card2 from "../../assets/Card2.png";
+import Card1 from "../../assets/Card1.jpg";
+import Card2 from "../../assets/Card2.jpg";
 import Card3 from "../../assets/Card3.png";
+import { getImageUrl } from "../../utils/productImages";
 
 const rangeOptions = [
   { label: "30 Days", value: "30d" },
@@ -31,13 +32,14 @@ function normalizeBestSeller(item, index) {
     title: item.title || item.name || item.productName || "Untitled work",
     units: item.units || item.quantity || item.sold || 0,
     price: item.price || item.revenue || 0,
-    image:
+    image: getImageUrl(
       item.img ||
-      item.image ||
-      item.main ||
-      item.thumbnail ||
-      item.product?.main ||
-      bestsellerFallbacks[index % bestsellerFallbacks.length],
+        item.image ||
+        item.main ||
+        item.thumbnail ||
+        item.product?.main ||
+        bestsellerFallbacks[index % bestsellerFallbacks.length]
+    ),
   };
 }
 

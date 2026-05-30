@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { FaWhatsapp } from "react-icons/fa";
 import { useCart } from "../contexts/CartContext";
 import { apiFetch } from "../dashboard/api/client";
+import { getImageUrl } from "../utils/productImages";
+import { WHATSAPP_NUMBER } from "../constants/site";
 
 const Checkout = () => {
   const { cart, removeFromCart } = useCart();
@@ -14,6 +17,7 @@ const Checkout = () => {
   const progress = step === 1 ? 50 : 100;
   const [placing, setPlacing] = useState(false);
   const [error, setError] = useState("");
+  const [whatsappUrl, setWhatsappUrl] = useState("");
 
   const [shippingDetails, setShippingDetails] = useState({
     name: "",
@@ -50,7 +54,7 @@ const Checkout = () => {
       title: item.title,
       price: Number(item.price),
       quantity: item.quantity,
-      image: item.main,
+      image: getImageUrl(item.main),
     })),
     status: "pending",
     total,
@@ -64,42 +68,60 @@ const Checkout = () => {
       body: orderPayload,
     });
 
-    // ✨ Premium formatted WhatsApp message
-    const message = `🛒 *New Order - ${orderId}*
+    // Emojis defined by code point so they can never be corrupted by file
+    // encoding — these always render correctly in WhatsApp.
+    // Only universally-supported emojis (Unicode 6.0, 2010) so they render on
+    // every device. 🪷 lotus (Unicode 14.0) was dropped — too new for some phones.
+    const E = {
+      flower: "\u{1F338}", // 🌸
+      person: "\u{1F464}", // 👤
+      phone: "\u{1F4DE}", // 📞
+      pin: "\u{1F4CD}", // 📍
+      receipt: "\u{1F4DD}", // 📝
+      money: "\u{1F4B0}", // 💰
+      check: "\u{2705}", // ✅
+    };
 
-👤 *Customer Details*
-Name: ${shippingDetails.name}
-Phone: ${shippingDetails.phone}
+    const itemLines = cart
+      .map(
+        (i) =>
+          `• ${i.title} ×${i.quantity} — ₹${(i.price * i.quantity).toFixed(2)}`
+      )
+      .join("\n");
 
-📍 *Address*
+    const message = `${E.flower} *New Order — ${orderId}*
+
+${E.person} *Customer*
+${shippingDetails.name}
+${E.phone} ${shippingDetails.phone}
+
+${E.pin} *Delivery Address*
 ${shippingDetails.address}, ${shippingDetails.city} - ${shippingDetails.pincode}
 
-🧾 *Order Summary*
-${cart
-  .map(
-    (i) =>
-      `• ${i.title} (x${i.quantity}) - ₹${(
-        i.price * i.quantity
-      ).toFixed(2)}`
-  )
-  .join("\n")}
+${E.receipt} *Order Summary*
+${itemLines}
 
-💰 *Total: ₹${total.toFixed(2)}*
+Subtotal: ₹${subtotal.toFixed(2)}
+Shipping: ₹${shipping.toFixed(2)}
+Taxes: ₹${taxes.toFixed(2)}
+${E.money} *Total: ₹${total.toFixed(2)}*
 
-Thank you!`;
+${E.check} Please confirm this order and share payment details (UPI / bank transfer / cash on delivery).
+
+Thank you for supporting handmade Madhubani art! ${E.flower}`;
 
     const encodedMessage = encodeURIComponent(message);
 
-    const appLink = `whatsapp://send?phone=919885866281&text=${encodedMessage}`;
-    const webLink = `https://wa.me/919885866281?text=${encodedMessage}`;
+    // Universal wa.me link — opens the WhatsApp app on mobile and WhatsApp Web
+    // on desktop. Avoids the "whatsapp://" scheme, which throws an
+    // "address is invalid" error in browsers without the app installed.
+    const webLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
 
-    // Try opening WhatsApp app
-    window.location.href = appLink;
-
-    // Fallback after 1.5 sec (if app not installed)
-    setTimeout(() => {
-      window.open(webLink, "_blank");
-    }, 1500);
+    // Keep the link so the confirmation screen always shows a working
+    // "Send on WhatsApp" button (auto-open below may be blocked by the browser
+    // because it runs after the await above).
+    setWhatsappUrl(webLink);
+    window.open(webLink, "_blank", "noopener,noreferrer");
 
     setStep(2);
   } catch (err) {
@@ -144,7 +166,7 @@ Thank you!`;
               <div className="space-y-3">
                 <input
                   name="name"
-                  className="w-full border p-2 rounded text-sm md:text-base"
+                  className="w-full rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                   placeholder="Full Name"
                   value={shippingDetails.name}
                   onChange={handleChange}
@@ -153,14 +175,14 @@ Thank you!`;
                 <div className="flex flex-col md:flex-row gap-2">
                   <input
                     name="email"
-                    className="flex-1 border p-2 rounded text-sm md:text-base"
+                    className="flex-1 rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                     placeholder="Email"
                     value={shippingDetails.email}
                     onChange={handleChange}
                   />
                   <input
                     name="phone"
-                    className="flex-1 border p-2 rounded text-sm md:text-base"
+                    className="flex-1 rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                     placeholder="Phone"
                     value={shippingDetails.phone}
                     onChange={handleChange}
@@ -170,14 +192,14 @@ Thank you!`;
                 <div className="flex flex-col md:flex-row gap-2">
                   <input
                     name="city"
-                    className="flex-1 border p-2 rounded text-sm md:text-base"
+                    className="flex-1 rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                     placeholder="City"
                     value={shippingDetails.city}
                     onChange={handleChange}
                   />
                   <input
                     name="pincode"
-                    className="flex-1 border p-2 rounded text-sm md:text-base"
+                    className="flex-1 rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                     placeholder="Pincode"
                     value={shippingDetails.pincode}
                     onChange={handleChange}
@@ -186,7 +208,7 @@ Thank you!`;
 
                 <textarea
                   name="address"
-                  className="w-full border p-2 rounded text-sm md:text-base"
+                  className="w-full rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                   rows="2"
                   placeholder="Full Address"
                   value={shippingDetails.address}
@@ -197,8 +219,9 @@ Thank you!`;
               <button
                 onClick={placeOrder}
                 disabled={placing || cart.length === 0}
-                className="bg-[#2F5965] w-full md:w-auto text-white px-6 py-3 mt-6 rounded disabled:opacity-50"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-6 py-3.5 font-semibold text-[#0b3d1f] transition hover:bg-[#1ebe5a] disabled:opacity-50 md:w-auto"
               >
+                <FaWhatsapp className="text-lg" />
                 {placing ? "Placing order..." : "Place Order & Confirm on WhatsApp"}
               </button>
               {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
@@ -208,43 +231,51 @@ Thank you!`;
 
         {/* RIGHT */}
         {step !== 2 && (
-          <div className="bg-white">
-            {cart.map((item) => (
-              <div key={item._id} className="flex gap-3 mb-4 border-b pb-4">
-                <img
-                  src={item.main}
-                  className="w-16 h-16 md:w-20 md:h-20 rounded object-cover"
-                  alt={item.title}
-                />
-                <div className="text-xs md:text-sm">
-                  <p className="font-medium">{item.title}</p>
-                  <p>₹{item.price}</p>
-                  <p>Qty: {item.quantity}</p>
-                  <button
-                    className="text-red-500 text-xs underline"
-                    onClick={() => removeFromCart(item._id)}
-                  >
-                    Remove
-                  </button>
+          <div className="md:self-start rounded-2xl border border-[#E7DFC9] bg-[#FDFCF5] p-5 md:p-6 shadow-[0_10px_40px_rgba(26,44,8,0.05)]">
+            <h2 className="mb-4 text-lg md:text-xl text-[#1A2C08]">Order Summary</h2>
+
+            <div className="divide-y divide-[#EAE4D2]">
+              {cart.map((item) => (
+                <div key={item._id} className="flex gap-3 py-3 first:pt-0">
+                  <img
+                    src={getImageUrl(item.main)}
+                    className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-lg border border-[#EAE4D2] bg-white object-contain p-1"
+                    alt={item.title}
+                  />
+                  <div className="flex flex-1 flex-col text-sm">
+                    <p className="font-medium text-[#1A2C08] line-clamp-2">{item.title}</p>
+                    <p className="mt-0.5 text-[#4A5E30]">Qty: {item.quantity}</p>
+                    <div className="mt-auto flex items-center justify-between">
+                      <span className="font-semibold text-[#1A2C08]">
+                        ₹{(item.price * item.quantity).toFixed(2)}
+                      </span>
+                      <button
+                        className="text-xs text-red-500 underline-offset-2 hover:underline"
+                        onClick={() => removeFromCart(item._id)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
 
             {/* Totals */}
-            <div className="mt-6 space-y-3 text-sm md:text-base">
-              <div className="flex justify-between border-b pb-2">
+            <div className="mt-5 space-y-2.5 border-t border-[#EAE4D2] pt-4 text-sm md:text-base">
+              <div className="flex justify-between text-[#4A5E30]">
                 <span>Subtotal</span>
                 <span>₹{subtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between border-b pb-2">
+              <div className="flex justify-between text-[#4A5E30]">
                 <span>Shipping</span>
-                <span>₹{shipping}</span>
+                <span>₹{shipping.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between border-b pb-2">
+              <div className="flex justify-between text-[#4A5E30]">
                 <span>Taxes</span>
-                <span>₹{taxes}</span>
+                <span>₹{taxes.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between font-semibold text-lg">
+              <div className="mt-1 flex justify-between border-t border-[#EAE4D2] pt-3 text-lg font-semibold text-[#1A2C08]">
                 <span>Total</span>
                 <span>₹{total.toFixed(2)}</span>
               </div>
@@ -264,8 +295,20 @@ Thank you!`;
               “Thank you for your order!”
             </p>
            <p className="text-green-600 font-medium mt-3 text-sm md:text-base">
-  Tap <strong>Send</strong> on WhatsApp to confirm your order.
+  Tap the button below, then press <strong>Send</strong> on WhatsApp to confirm your order.
 </p>
+
+            {whatsappUrl && (
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex items-center justify-center gap-2 rounded-lg bg-[#25D366] px-7 py-3.5 font-semibold text-[#0b3d1f] transition hover:bg-[#1ebe5a]"
+              >
+                <FaWhatsapp className="text-lg" />
+                Send Order on WhatsApp
+              </a>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -278,9 +321,9 @@ Thank you!`;
               {cart.map((item) => (
                 <div key={item._id} className="flex items-start gap-4 mb-4">
                   <img
-                    src={item.main}
+                    src={getImageUrl(item.main)}
                     alt={item.title}
-                    className="w-16 h-16 md:w-20 md:h-20 object-cover rounded"
+                    className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded border bg-white object-contain p-1"
                   />
                   <div>
                     <p className="font-medium">{item.title}</p>

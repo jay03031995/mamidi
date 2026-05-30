@@ -4,10 +4,11 @@ import { DashboardShell, PrimaryButton } from "../components/DashboardShell";
 import { CatalogFilters } from "../components/CatalogFilters";
 import { ProductCard } from "../components/ProductCard";
 import { listProducts, deleteProduct, updateProduct } from "../api/products";
-import { listCategories, createCategory } from "../api/categories";
+import { listCategories, createCategory, updateCategory, deleteCategory } from "../api/categories";
 import { useApiResource } from "../hooks/useApiResource";
 import Modal from "../components/Modal";
 import { ProductForm } from "../components/ProductForm";
+import { Trash2, Edit2 } from "lucide-react";
 
 export default function ProductCatalog() {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ export default function ProductCatalog() {
   const [categoryModal, setCategoryModal] = useState(false);
   const [newCategory, setNewCategory] = useState("");
   const [catError, setCatError] = useState("");
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [deleting, setDeleting] = useState(false);
   const { data, loading, error } = useApiResource(
     () => listProducts({ search }),
     [search]
@@ -57,7 +60,7 @@ export default function ProductCatalog() {
     if (!confirm) return;
     try {
       await deleteProduct(product._id);
-      window.location.reload(); // simple refresh to reflect deletion
+      window.location.reload();
     } catch (err) {
       alert(`Failed to delete: ${err.message}`);
     }
@@ -83,14 +86,84 @@ export default function ProductCatalog() {
     }
   };
 
+  const openCategoryModal = () => {
+    setEditingCategory(null);
+    setNewCategory("");
+    setCatError("");
+    setCategoryModal(true);
+  };
+
+  const openEditCategory = (cat) => {
+    setEditingCategory(cat);
+    setNewCategory(cat.name);
+    setCatError("");
+    setCategoryModal(true);
+  };
+
+  const handleSaveCategory = async () => {
+    if (!newCategory.trim()) {
+      setCatError("Category name is required");
+      return;
+    }
+
+    try {
+      setCatError("");
+      setSaving(true);
+
+      if (editingCategory) {
+        await updateCategory(editingCategory._id, newCategory.trim());
+      } else {
+        await createCategory(newCategory.trim());
+      }
+
+      const updated = await listCategories();
+      setCategories(updated);
+      setNewCategory("");
+      setEditingCategory(null);
+      setCategoryModal(false);
+    } catch (err) {
+      setCatError(err.message || "Failed to save category");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDeleteCategory = async (cat) => {
+    if (!window.confirm(`Delete "${cat.name}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      setCatError("");
+      setDeleting(true);
+      await deleteCategory(cat._id);
+      const updated = await listCategories();
+      setCategories(updated);
+      setCategoryModal(false);
+      setEditingCategory(null);
+    } catch (err) {
+      setCatError(err.message || "Failed to delete category");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
     <DashboardShell
       title="Product Catalog"
       subtitle="Manage your handcrafted atelier collection"
       actions={
-        <PrimaryButton icon="add" onClick={() => navigate("/dashboard/products/new")}>
-          Add New Product
-        </PrimaryButton>
+        <>
+          <PrimaryButton icon="add" onClick={() => navigate("/dashboard/products/new")}>
+            Add New Product
+          </PrimaryButton>
+          <button
+            onClick={openCategoryModal}
+            className="ml-3 px-4 py-2 rounded-lg bg-[#5B6D50] text-white text-sm font-semibold hover:bg-[#4A5640] transition-colors"
+          >
+            + Add Category
+          </button>
+        </>
       }
     >
       <CatalogFilters
@@ -137,12 +210,7 @@ export default function ProductCatalog() {
             price: selected?.price,
             description: selected?.description,
             main: selected?.main,
-            gallery: [
-              selected?.sideimg1,
-              selected?.sideimg2,
-              selected?.sideimg3,
-              selected?.sideimg4,
-            ].filter(Boolean),
+            gallery: selected?.sideImages || [],
             occasion: selected?.Occasion,
             material: selected?.Material,
             colour: selected?.Colour,
@@ -154,56 +222,98 @@ export default function ProductCatalog() {
           onSaveDraft={() => {}}
           loading={saving}
           categories={categories}
-          onAddCategory={() => setCategoryModal(true)}
+          onAddCategory={openCategoryModal}
         />
       </Modal>
 
       <Modal
         open={categoryModal}
-        onClose={() => setCategoryModal(false)}
-        title="Add Category"
+        onClose={() => {
+          setCategoryModal(false);
+          setEditingCategory(null);
+          setNewCategory("");
+        }}
+        title={editingCategory ? "Edit Category" : "Add Category"}
       >
         {catError && (
           <div className="mb-3 bg-[#ffdad6] text-[#93000a] px-3 py-2 rounded-lg text-sm">
             {catError}
           </div>
         )}
-        <div className="space-y-3">
+        <div className="space-y-4">
           <input
             value={newCategory}
             onChange={(e) => setNewCategory(e.target.value)}
             placeholder="Category name"
-            className="w-full border border-[#c4c8b9] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#385419]/30"
+            className="w-full border border-[#c4c8b9] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#385419]/30 outline-none"
           />
-          <div className="flex justify-end gap-2">
+
+          <div className="bg-[#f5f5f0] p-3 rounded-lg border border-[#c4c8b9]">
+            <p className="text-sm text-[#5B6D50] mb-2">Existing categories:</p>
+            {categories.length ? (
+              <div className="space-y-2 max-h-56 overflow-y-auto">
+                {categories.map((cat) => (
+                  <div
+                    key={cat._id}
+                    className="flex items-center justify-between gap-3 bg-white p-2 rounded border border-[#e0e0d0]"
+                  >
+                    <span className="text-sm text-[#1A2C08] font-medium">{cat.name}</span>
+                    <div className="flex gap-1">
+                      <button
+                        type="button"
+                        onClick={() => openEditCategory(cat)}
+                        className="p-1.5 text-[#5B6D50] hover:bg-[#e8ebe0] rounded transition-colors"
+                        title="Edit category"
+                      >
+                        <Edit2 size={16} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteCategory(cat)}
+                        disabled={deleting}
+                        className="p-1.5 text-[#ba1a1a] hover:bg-[#ffdad6] rounded transition-colors disabled:opacity-50"
+                        title="Delete category"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-[#5B6D50]">No categories yet.</p>
+            )}
+          </div>
+
+          <div className="flex justify-end gap-2 pt-2">
             <button
               type="button"
-              onClick={() => setCategoryModal(false)}
-              className="px-4 py-2 rounded-lg border border-[#c4c8b9] text-sm"
+              onClick={() => {
+                setCategoryModal(false);
+                setEditingCategory(null);
+                setNewCategory("");
+              }}
+              className="px-4 py-2 rounded-lg border border-[#c4c8b9] text-sm font-medium text-[#5B6D50] hover:bg-[#f5f5f0] transition-colors"
             >
               Cancel
             </button>
+            {editingCategory && (
+              <button
+                type="button"
+                onClick={() => handleDeleteCategory(editingCategory)}
+                disabled={deleting || saving}
+                className="px-4 py-2 rounded-lg bg-[#ba1a1a] text-white text-sm font-semibold hover:bg-[#9d1416] transition-colors disabled:opacity-50"
+              >
+                {deleting ? "Deleting..." : "Delete"}
+              </button>
+            )}
             <button
               type="button"
-              onClick={async () => {
-                if (!newCategory.trim()) {
-                  setCatError("Category name is required");
-                  return;
-                }
-                try {
-                  setCatError("");
-                  await createCategory(newCategory.trim());
-                  const updated = await listCategories();
-                  setCategories(updated);
-                  setNewCategory("");
-                  setCategoryModal(false);
-                } catch (err) {
-                  setCatError(err.message);
-                }
-              }}
-              className="px-4 py-2 rounded-lg bg-[#385419] text-white text-sm font-semibold"
+              onClick={handleSaveCategory}
+              disabled={saving || deleting}
+              className="px-4 py-2 rounded-lg bg-[#385419] text-white text-sm font-semibold hover:bg-[#2d4414] transition-colors disabled:opacity-50"
             >
-              Save
+              {saving ? "Saving..." : editingCategory ? "Update" : "Save"}
             </button>
           </div>
         </div>

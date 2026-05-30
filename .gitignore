@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local image-optimization backup (not for repo)
+assets_original_backup
+
+# Separate backend repo (maintained elsewhere)
+Mamidi_backend

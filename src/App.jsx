@@ -2,6 +2,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
+import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Contact from "./pages/Contact";
@@ -26,6 +27,7 @@ function App() {
     <Router>
      <AuthProvider>
       <CartProvider>
+        <ScrollToTop />
         <Routes>
         {/* Wrap routes with Layout */}
         <Route path="/" element={<Layout />}>

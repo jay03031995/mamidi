@@ -166,6 +166,7 @@ Thank you for supporting handmade Madhubani art! ${E.flower}`;
               <div className="space-y-3">
                 <input
                   name="name"
+                  autoComplete="name"
                   className="w-full rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                   placeholder="Full Name"
                   value={shippingDetails.name}
@@ -175,6 +176,9 @@ Thank you for supporting handmade Madhubani art! ${E.flower}`;
                 <div className="flex flex-col md:flex-row gap-2">
                   <input
                     name="email"
+                    type="email"
+                    autoComplete="email"
+                    inputMode="email"
                     className="flex-1 rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                     placeholder="Email"
                     value={shippingDetails.email}
@@ -182,6 +186,9 @@ Thank you for supporting handmade Madhubani art! ${E.flower}`;
                   />
                   <input
                     name="phone"
+                    type="tel"
+                    autoComplete="tel"
+                    inputMode="tel"
                     className="flex-1 rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                     placeholder="Phone"
                     value={shippingDetails.phone}
@@ -192,6 +199,7 @@ Thank you for supporting handmade Madhubani art! ${E.flower}`;
                 <div className="flex flex-col md:flex-row gap-2">
                   <input
                     name="city"
+                    autoComplete="address-level2"
                     className="flex-1 rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                     placeholder="City"
                     value={shippingDetails.city}
@@ -199,6 +207,8 @@ Thank you for supporting handmade Madhubani art! ${E.flower}`;
                   />
                   <input
                     name="pincode"
+                    autoComplete="postal-code"
+                    inputMode="numeric"
                     className="flex-1 rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                     placeholder="Pincode"
                     value={shippingDetails.pincode}
@@ -208,6 +218,7 @@ Thank you for supporting handmade Madhubani art! ${E.flower}`;
 
                 <textarea
                   name="address"
+                  autoComplete="street-address"
                   className="w-full rounded-lg border border-[#D8DEC4] bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#2F5965] md:text-base"
                   rows="2"
                   placeholder="Full Address"

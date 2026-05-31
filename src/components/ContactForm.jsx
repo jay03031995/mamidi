@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaInstagram, FaWhatsapp } from "react-icons/fa";
-import processImage from "../assets/process1.jpg";
+import processImage from "../assets/bespoke-mamidi.jpg";
 
 const steps = [
   {
@@ -65,7 +65,7 @@ ${message}
         >
           <img
             src={processImage}
-            alt="Mamidi custom artwork process"
+            alt="Mamidi folk-art peacock illustration"
             className="h-full w-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
           />
         </div>

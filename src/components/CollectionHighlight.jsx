@@ -33,7 +33,7 @@ const CollectionHighlight = () => {
 <div className="flex flex-col">
 
   {/* SLIDER */}
-  <div className="relative overflow-hidden border border-[#D8DEC4] bg-[#E8EBD8] h-[240px] sm:h-[300px] md:h-[360px]">
+  <div className="relative aspect-[3/2] w-full overflow-hidden border border-[#D8DEC4] bg-[#E8EBD8]">
 
     {/* SLIDES */}
     <div

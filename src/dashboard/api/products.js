@@ -7,6 +7,33 @@ export async function listProducts({ page = 1, limit = 20, search } = {}) {
   return apiFetch(withQuery(`${BASE}/`, { page, limit, search }));
 }
 
+/**
+ * Fetch EVERY product, regardless of how many pages the API splits them into.
+ * Pages through `/products` (using the `total` the API returns) until the whole
+ * catalog is collected, so newly-added products are never stranded on a later
+ * page. Returns the same shape as listProducts: { data, total }.
+ */
+export async function listAllProducts({ search, pageSize = 100 } = {}) {
+  const all = [];
+  let page = 1;
+  let total = Infinity;
+
+  while (all.length < total) {
+    const res = await apiFetch(
+      withQuery(`${BASE}/`, { page, limit: pageSize, search })
+    );
+    const batch = Array.isArray(res?.data) ? res.data : [];
+    all.push(...batch);
+
+    total = typeof res?.total === "number" ? res.total : all.length;
+
+    if (batch.length === 0) break; // safety: stop if a page returns nothing
+    page += 1;
+  }
+
+  return { data: all, total: all.length };
+}
+
 export async function getProduct(id) {
   return apiFetch(`${BASE}/${id}`);
 }

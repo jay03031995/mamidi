@@ -9,6 +9,7 @@ import {
 import { getImageUrl, getImageUrls } from "../utils/productImages";
 import { slugifyTitle, getProductPath } from "../utils/productLinks";
 import { apiFetch } from "../dashboard/api/client";
+import { listAllProducts } from "../dashboard/api/products";
 import JsonLd from "../components/JsonLd";
 import Breadcrumbs from "../components/Breadcrumbs";
 import Seo from "../components/Seo";
@@ -33,7 +34,7 @@ const ProductDetail = () => {
         setProduct(null);
         setNotFound(false);
 
-        const listData = await apiFetch("/products?limit=1000");
+        const listData = await listAllProducts();
 
         const products = Array.isArray(listData.data)
           ? listData.data

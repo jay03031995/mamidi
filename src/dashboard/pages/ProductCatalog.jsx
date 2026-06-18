@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { DashboardShell, PrimaryButton } from "../components/DashboardShell";
 import { CatalogFilters } from "../components/CatalogFilters";
 import { ProductCard } from "../components/ProductCard";
-import { listProducts, deleteProduct, updateProduct } from "../api/products";
+import { listAllProducts, deleteProduct, updateProduct } from "../api/products";
 import { listCategories, createCategory, updateCategory, deleteCategory } from "../api/categories";
 import { useApiResource } from "../hooks/useApiResource";
 import Modal from "../components/Modal";
@@ -24,7 +24,7 @@ export default function ProductCatalog() {
   const [editingCategory, setEditingCategory] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const { data, loading, error } = useApiResource(
-    () => listProducts({ search, limit: 1000 }),
+    () => listAllProducts({ search }),
     [search]
   );
 

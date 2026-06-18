@@ -29,7 +29,7 @@ const HeroSection = () => {
           src="/hero.png"
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute right-0 top-1/2 z-0 hidden w-[40vw] max-w-[480px] -translate-y-1/2 opacity-90 mix-blend-screen md:block lg:right-6"
+          className="pointer-events-none absolute right-0 top-[28%] z-0 w-[48vw] max-w-[230px] -translate-y-1/2 opacity-75 mix-blend-screen sm:opacity-90 md:top-[37%] md:w-[38vw] md:max-w-[440px] lg:right-6"
         />
 
         {/* INNER */}

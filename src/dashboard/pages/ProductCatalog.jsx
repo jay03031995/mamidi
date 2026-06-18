@@ -24,7 +24,7 @@ export default function ProductCatalog() {
   const [editingCategory, setEditingCategory] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const { data, loading, error } = useApiResource(
-    () => listProducts({ search }),
+    () => listProducts({ search, limit: 1000 }),
     [search]
   );
 

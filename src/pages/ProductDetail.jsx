@@ -33,7 +33,7 @@ const ProductDetail = () => {
         setProduct(null);
         setNotFound(false);
 
-        const listData = await apiFetch("/products");
+        const listData = await apiFetch("/products?limit=1000");
 
         const products = Array.isArray(listData.data)
           ? listData.data

@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import artisanImage from "../assets/aboutpic1.jpg";
 
 // SLIDER IMAGES
-import slide1 from "/1.png";
-import slide2 from "/2.png";
-import slide3 from "/3.png";
+import slide1 from "/1.jpg";
+import slide2 from "/2.jpg";
+import slide3 from "/3.jpg";
 
 const CollectionHighlight = () => {
   const images = [slide1, slide2, slide3];

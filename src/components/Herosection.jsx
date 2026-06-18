@@ -24,6 +24,14 @@ const HeroSection = () => {
         {/* BOTTOM GLOW */}
         <div className="pointer-events-none absolute bottom-0 left-[10%] h-[40vw] w-[50vw] rounded-full bg-[radial-gradient(ellipse,rgba(200,160,32,0.07)_0%,transparent_70%)]" />
 
+        {/* DECORATIVE OWL (fills the blank right side; blended so it glows on the green) */}
+        <img
+          src="/hero.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute right-0 top-1/2 z-0 hidden w-[40vw] max-w-[480px] -translate-y-1/2 opacity-90 mix-blend-screen md:block lg:right-6"
+        />
+
         {/* INNER */}
         <div className="relative z-10 flex flex-auto flex-col justify-between gap-6 px-4 py-8 sm:px-8 sm:py-10 lg:px-12">
 

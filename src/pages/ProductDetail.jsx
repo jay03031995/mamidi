@@ -4,7 +4,9 @@ import Addtocart from "../components/Addtocart";
 import { useCart } from "../contexts/CartContext";
 import {
   formatProductPrice,
+  getProductStock,
   isPurchasableProduct,
+  isSoldOutProduct,
 } from "../data/shopCatalog";
 import { getImageUrl, getImageUrls } from "../utils/productImages";
 import { slugifyTitle, getProductPath } from "../utils/productLinks";
@@ -102,7 +104,9 @@ const ProductDetail = () => {
   if (!product)
     return <p className="py-16 text-center">Loading...</p>;
 
+  const soldOut = isSoldOutProduct(product);
   const canBuy = isPurchasableProduct(product);
+  const stock = getProductStock(product);
 
   const category =
     product.category ||
@@ -221,9 +225,16 @@ const ProductDetail = () => {
         {/* RIGHT CONTENT */}
         <div className="self-center">
 
-          <p className="mb-3 inline-flex rounded-full bg-[#fcfbe6]/60 px-4 py-2 text-sm font-semibold uppercase text-[#395419]">
-            {category}
-          </p>
+          <div className="mb-3 flex flex-wrap gap-2">
+            <p className="inline-flex rounded-full bg-[#fcfbe6]/60 px-4 py-2 text-sm font-semibold uppercase text-[#395419]">
+              {category}
+            </p>
+            {soldOut ? (
+              <p className="inline-flex rounded-full bg-[#ffdad6] px-4 py-2 text-sm font-semibold uppercase text-[#93000a]">
+                Sold Out
+              </p>
+            ) : null}
+          </div>
 
           <h1 className="mb-4 text-3xl font-semibold leading-tight text-gray-950 md:text-5xl">
             {product.title}
@@ -236,6 +247,11 @@ const ProductDetail = () => {
           <p className="mb-7 text-3xl font-semibold text-gray-950">
             {formatProductPrice(product)}
           </p>
+          {stock !== null && !soldOut ? (
+            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.14em] text-[#4D6A2D]">
+              {stock} available
+            </p>
+          ) : null}
 
           {/* BUY SECTION */}
           {canBuy ? (
@@ -263,7 +279,12 @@ const ProductDetail = () => {
                   </span>
 
                   <button
-                    onClick={() => setQuantity((q) => q + 1)}
+                    onClick={() =>
+                      setQuantity((q) =>
+                        stock === null ? q + 1 : Math.min(stock, q + 1)
+                      )
+                    }
+                    disabled={stock !== null && quantity >= stock}
                     className="px-4 py-2 text-lg text-gray-700"
                   >
                     +
@@ -287,6 +308,7 @@ const ProductDetail = () => {
                     addToCart(product, quantity);
                     navigate("/checkout");
                   }}
+                  disabled={stock !== null && quantity > stock}
                   className="flex-1 rounded-xl bg-[#1A2C08] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-[#FDFCF5] transition-all duration-300 hover:bg-[#2e4a10]"
                 >
                   Checkout
@@ -299,12 +321,19 @@ const ProductDetail = () => {
               </p>
             </div>
           ) : (
-            <Link
-              to="/contact"
-              className="inline-flex rounded-xl bg-[#395419] px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-900"
-            >
-              Enquire for Custom Order
-            </Link>
+            <div className="space-y-3">
+              {soldOut ? (
+                <p className="max-w-md rounded-xl border border-[#ffb4ab] bg-[#ffdad6] px-4 py-3 text-sm font-semibold text-[#93000a]">
+                  This piece is sold out and currently unavailable.
+                </p>
+              ) : null}
+              <Link
+                to="/contact"
+                className="inline-flex rounded-xl bg-[#395419] px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-900"
+              >
+                Enquire for Custom Order
+              </Link>
+            </div>
           )}
         </div>
       </section>

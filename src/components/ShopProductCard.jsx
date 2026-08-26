@@ -5,12 +5,16 @@ import BuyNow from "./BuyNow";
 import { getProductPath } from "../utils/productLinks";
 import {
   formatProductPrice,
+  getProductStock,
   isPurchasableProduct,
+  isSoldOutProduct,
 } from "../data/shopCatalog";
 import { getImageUrl } from "../utils/productImages";
 
 const ShopProductCard = ({ product }) => {
   const canBuy = isPurchasableProduct(product);
+  const soldOut = isSoldOutProduct(product);
+  const stock = getProductStock(product);
   const imageUrl = getImageUrl(product.main || product.img);
 
   const category =
@@ -39,6 +43,11 @@ const ShopProductCard = ({ product }) => {
             Mamidi
           </div>
         )}
+        {soldOut ? (
+          <span className="absolute left-3 top-3 rounded-full bg-[#93000a] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white shadow-sm">
+            Sold Out
+          </span>
+        ) : null}
       </Link>
 
       {/* CONTENT */}
@@ -62,6 +71,11 @@ const ShopProductCard = ({ product }) => {
         <p className="mt-1.5 text-[15px] font-semibold text-[#3E5E14] sm:text-base">
           {formatProductPrice(product)}
         </p>
+        {stock !== null && !soldOut ? (
+          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#6B7B52]">
+            {stock} available
+          </p>
+        ) : null}
 
         {/* DESCRIPTION (hidden on small cards to keep the 2-up grid tidy) */}
         <p className="mt-2 hidden text-[15px] leading-7 text-[#556343] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden sm:[display:-webkit-box]">
@@ -79,6 +93,13 @@ const ShopProductCard = ({ product }) => {
                 <BuyNow product={product} />
               </div>
             </div>
+          ) : soldOut ? (
+            <Link
+              to={getProductPath(product)}
+              className="flex w-full items-center justify-center border border-[#93000a] bg-[#ffdad6] px-6 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#93000a] transition-all duration-300 hover:bg-[#93000a] hover:text-white"
+            >
+              Sold Out
+            </Link>
           ) : (
             <Link
               to={getProductPath(product)}

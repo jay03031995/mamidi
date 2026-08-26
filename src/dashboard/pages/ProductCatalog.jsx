@@ -208,6 +208,7 @@ export default function ProductCatalog() {
             title: selected?.title,
             category: selected?.Type,
             price: selected?.price,
+            stock: selected?.stock,
             description: selected?.description,
             main: selected?.main,
             gallery: selected?.sideImages || [],
@@ -217,6 +218,13 @@ export default function ProductCatalog() {
             dimensions: selected?.Dimensions,
             pages: selected?.Pages,
             print: selected?.Print,
+            isSoldOut: selected?.isSoldOut,
+            soldOut: selected?.soldOut,
+            sold: selected?.sold,
+            outOfStock: selected?.outOfStock,
+            availability: selected?.availability,
+            status: selected?.status,
+            stockStatus: selected?.stockStatus,
           }}
           onSubmit={handleUpdate}
           onSaveDraft={() => {}}

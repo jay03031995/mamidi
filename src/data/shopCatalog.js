@@ -4,6 +4,50 @@ import { getImageUrl } from "../utils/productImages";
 export const hasPrice = (product) =>
   product.price !== undefined && product.price !== null && product.price !== "";
 
+export const getProductStock = (product = {}) => {
+  if (product.stock === undefined || product.stock === null || product.stock === "") {
+    return null;
+  }
+
+  const stock = Number(product.stock);
+  return Number.isFinite(stock) ? Math.max(0, Math.floor(stock)) : null;
+};
+
+const truthyAvailabilityValue = (value) => {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "number") return value === 1;
+  if (typeof value !== "string") return false;
+
+  return ["true", "1", "yes", "sold", "sold out", "sold_out", "out of stock", "out_of_stock"].includes(
+    value.trim().toLowerCase()
+  );
+};
+
+const falseyAvailabilityValue = (value) => {
+  if (typeof value === "boolean") return value === false;
+  if (typeof value === "number") return value === 0;
+  if (typeof value !== "string") return false;
+
+  return ["false", "0", "no", "unavailable"].includes(value.trim().toLowerCase());
+};
+
+export const isSoldOutProduct = (product = {}) =>
+  getProductStock(product) === 0 ||
+  truthyAvailabilityValue(product.isSoldOut) ||
+  truthyAvailabilityValue(product.soldOut) ||
+  truthyAvailabilityValue(product.sold) ||
+  truthyAvailabilityValue(product.outOfStock) ||
+  ["sold", "sold out", "sold_out", "out of stock", "out_of_stock", "unavailable"].includes(
+    (product.availability || product.status || product.stockStatus || "")
+      .toString()
+      .trim()
+      .toLowerCase()
+  );
+
+const isExplicitlyUnpurchasable = (product = {}) =>
+  falseyAvailabilityValue(product.isPurchasable) ||
+  falseyAvailabilityValue(product.purchasable);
+
 const getCategoryName = (product) => {
   const category = product.category || product.Category || product.Type || product.type || "";
 
@@ -46,7 +90,9 @@ export const formatProductPrice = (product) => {
 };
 
 export const isPurchasableProduct = (product) =>
-  product.isPurchasable !== false && hasPrice(product);
+  !isExplicitlyUnpurchasable(product) &&
+  !isSoldOutProduct(product) &&
+  hasPrice(product);
 
 export const groupProductsByCategory = (apiProducts = []) =>
   SHOP_CATEGORIES.map((category) => {

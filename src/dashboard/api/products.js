@@ -87,6 +87,8 @@ function normalizePayload(input) {
     dimensions,
     pages,
     print,
+    isSoldOut = false,
+    stock,
   } = input;
 
   const formData = new FormData();
@@ -117,6 +119,9 @@ function normalizePayload(input) {
   appendValue(formData, "Dimensions", dimensions);
   appendValue(formData, "Pages", pages);
   appendValue(formData, "Print", print);
+  appendValue(formData, "stock", stock?.toString());
+  appendValue(formData, "isSoldOut", isSoldOut ? "true" : "false");
+  appendValue(formData, "isPurchasable", isSoldOut ? "false" : "true");
 
   if (mainFiles.length > 0) {
     formData.append("main", mainFiles[0]);

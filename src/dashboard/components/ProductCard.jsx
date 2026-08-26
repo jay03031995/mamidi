@@ -1,11 +1,14 @@
 import React from "react";
 import { Badge, GhostButton } from "./DashboardShell";
 import { getImageUrl } from "../../utils/productImages";
+import { getProductStock, isSoldOutProduct } from "../../data/shopCatalog";
 
 export function FeaturedProductCard({ product, onEdit, onDelete }) {
   if (!product) return null;
   const { title, main, description, price, _id, stock = 0, sku = "" } = product;
   const mainImage = getImageUrl(main);
+  const soldOut = isSoldOutProduct(product);
+  const availableStock = getProductStock(product) ?? stock;
   return (
     <div className="md:col-span-7 group relative overflow-hidden bg-white rounded-2xl shadow-sm transition-all hover:shadow-xl">
       <div className="grid md:grid-cols-2 h-full">
@@ -24,7 +27,9 @@ export function FeaturedProductCard({ product, onEdit, onDelete }) {
         <div className="p-6 flex flex-col gap-5">
           <div className="flex justify-between items-start">
             <h3 className="text-2xl font-headline text-[#1c1c11] line-clamp-2">{title}</h3>
-            <Badge tone="success">In Stock ({stock})</Badge>
+            <Badge tone={soldOut ? "error" : "success"}>
+              {soldOut ? "Sold Out" : `In Stock (${availableStock})`}
+            </Badge>
           </div>
           <p className="text-[#44483d] font-body leading-relaxed line-clamp-3">
             {description}
@@ -66,8 +71,12 @@ export function FeaturedProductCard({ product, onEdit, onDelete }) {
 export function ProductCard({ product, onQuickEdit, onDelete }) {
   const { title, main, description, price, stockStatus = "" } = product;
   const mainImage = getImageUrl(main);
+  const soldOut = isSoldOutProduct(product);
+  const availableStock = getProductStock(product);
   const badgeTone =
-    stockStatus === "low"
+    soldOut
+      ? "bg-[#ffdad6] text-[#93000a]"
+      : stockStatus === "low"
       ? "bg-[#fed65b] text-[#745c00]"
       : "bg-[#caeea1] text-[#324e14]";
 
@@ -75,9 +84,9 @@ export function ProductCard({ product, onQuickEdit, onDelete }) {
     <div className="bg-[#f6f4e1] rounded-[2rem] p-6 flex flex-col shadow-sm">
       <div className="relative h-48 rounded-2xl overflow-hidden mb-6">
         {mainImage && <img src={mainImage} alt={title} className="w-full h-full bg-white object-contain p-2" />}
-        {stockStatus ? (
+        {stockStatus || soldOut ? (
           <span className={`absolute top-3 right-3 ${badgeTone} px-3 py-1 rounded-full text-[10px] font-bold uppercase`}>
-            {stockStatus === "low" ? "Low Stock" : "In Stock"}
+            {soldOut ? "Sold Out" : stockStatus === "low" ? "Low Stock" : "In Stock"}
           </span>
         ) : null}
       </div>
@@ -86,7 +95,14 @@ export function ProductCard({ product, onQuickEdit, onDelete }) {
         {description}
       </p>
       <div className="mt-auto flex items-center justify-between">
-        <span className="text-lg font-bold text-[#385419]">₹{price}</span>
+        <div>
+          <span className="text-lg font-bold text-[#385419]">₹{price}</span>
+          {availableStock !== null ? (
+            <p className="text-xs font-semibold text-[#44483d]">
+              Qty: {availableStock}
+            </p>
+          ) : null}
+        </div>
         <div className="flex gap-3">
           <button
             onClick={() => onQuickEdit?.(product)}

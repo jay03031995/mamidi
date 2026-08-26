@@ -1,7 +1,7 @@
 import { SITE_URL } from "../constants/site";
 import { getImageUrls } from "./productImages";
 import { getProductPath } from "./productLinks";
-import { hasPrice } from "../data/shopCatalog";
+import { hasPrice, isSoldOutProduct } from "../data/shopCatalog";
 
 const absolute = (path = "") =>
   path.startsWith("http") ? path : `${SITE_URL}${path.startsWith("/") ? "" : "/"}${path}`;
@@ -49,12 +49,15 @@ export const productSchema = (product) => {
   };
 
   if (hasPrice(product)) {
+    const soldOut = isSoldOutProduct(product);
     schema.offers = {
       "@type": "Offer",
       url: absolute(getProductPath(product)),
       priceCurrency: "INR",
       price: Number(product.price),
-      availability: "https://schema.org/InStock",
+      availability: soldOut
+        ? "https://schema.org/OutOfStock"
+        : "https://schema.org/InStock",
       seller: { "@type": "Organization", name: "Mamidi" },
     };
   }

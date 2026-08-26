@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { SectionCard, PrimaryButton, GhostButton } from "./DashboardShell";
 import { getImageUrl } from "../../utils/productImages";
+import { getProductStock, isSoldOutProduct } from "../../data/shopCatalog";
 
 const SIDE_IMAGE_LIMIT = 12;
 
 function createFormState(initialValues = {}) {
   const gallery = (initialValues.gallery || initialValues.sideImages || []).filter(Boolean);
+  const initialStock = getProductStock(initialValues);
 
   return {
     title: "",
@@ -21,6 +23,8 @@ function createFormState(initialValues = {}) {
     pages: "",
     print: "",
     ...initialValues,
+    stock: initialStock ?? 1,
+    isSoldOut: isSoldOutProduct(initialValues),
     gallery,
     galleryFiles: gallery.map((_, index) => initialValues.galleryFiles?.[index] || []),
   };
@@ -133,6 +137,36 @@ export function ProductForm({
                 />
               </div>
             </Field>
+            <Field label="Quantity in Stock">
+              <input
+                required
+                min="0"
+                step="1"
+                value={form.stock}
+                onChange={(e) => updateField("stock", e.target.value)}
+                className="w-full bg-white border border-transparent rounded-xl px-4 py-4 focus:ring-2 focus:ring-[#385419]/20 transition-all text-on-surface placeholder:text-[#44483d]/40"
+                placeholder="1"
+                type="number"
+              />
+            </Field>
+            <Field label="Availability" span={2}>
+              <label className="flex items-center justify-between gap-4 rounded-xl bg-white px-4 py-4 text-on-surface">
+                <span>
+                  <span className="block text-sm font-semibold text-[#1c1c11]">
+                    Mark as sold out
+                  </span>
+                  <span className="block text-xs text-[#44483d]">
+                    Sold out products stay visible, but customers cannot add them to cart.
+                  </span>
+                </span>
+                <input
+                  type="checkbox"
+                  checked={!!form.isSoldOut}
+                  onChange={(e) => updateField("isSoldOut", e.target.checked)}
+                  className="h-5 w-5 rounded border-[#c4c8b9] accent-[#385419]"
+                />
+              </label>
+            </Field>
             <Field label="The Story (Description)" span={2}>
               <textarea
                 value={form.description}
@@ -241,12 +275,15 @@ export function ProductForm({
           <div className="p-6">
             <h3 className="text-2xl font-bold mb-1">{form.title || "Untitled Masterpiece"}</h3>
             <p className="text-[#735c00] font-semibold">₹{form.price || "0.00"}</p>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-[#44483d]">
+              Qty: {form.stock || 0}
+            </p>
             <div className="mt-4 flex gap-2">
               <span className="bg-[#f6f4e1] px-2 py-1 rounded text-[10px] uppercase font-bold text-[#44483d]">
                 Draft
               </span>
               <span className="bg-[#f6f4e1] px-2 py-1 rounded text-[10px] uppercase font-bold text-[#44483d]">
-                Studio Pick
+                {form.isSoldOut ? "Sold Out" : "Available"}
               </span>
             </div>
           </div>

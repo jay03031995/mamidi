@@ -2,6 +2,7 @@ import React from "react";
 import { useCart } from "../contexts/CartContext";
 import { useNavigate } from "react-router-dom";
 import { getImageUrl } from "../utils/productImages";
+import { getProductStock } from "../data/shopCatalog";
 
 const CartPage = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
@@ -35,7 +36,10 @@ const CartPage = () => {
                 </td>
               </tr>
             ) : (
-              cart.map((item, index) => (
+              cart.map((item, index) => {
+                const stock = getProductStock(item);
+
+                return (
                 <tr key={item._id} className="border-b">
                   {/* Name */}
                   <td className="flex items-center gap-4 p-6">
@@ -46,6 +50,11 @@ const CartPage = () => {
                       className="h-20 w-20 shrink-0 rounded-md border bg-white object-contain p-1"
                     />
                     <span className="font-medium">{item.title}</span>
+                    {stock !== null ? (
+                      <span className="text-xs font-semibold text-gray-500">
+                        {stock} available
+                      </span>
+                    ) : null}
                   </td>
 
                   {/* Price */}
@@ -66,6 +75,7 @@ const CartPage = () => {
                     <span>{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                      disabled={stock !== null && item.quantity >= stock}
                       className="px-2 py-1 border"
                     >
                       +
@@ -85,7 +95,8 @@ const CartPage = () => {
                     </button>
                   </td>
                 </tr>
-              ))
+                );
+              })
             )}
           </tbody>
         </table>
@@ -93,7 +104,10 @@ const CartPage = () => {
 
       {/* ✅ Mobile Card Layout */}
       <div className="md:hidden space-y-4">
-        {cart.map((item) => (
+        {cart.map((item) => {
+          const stock = getProductStock(item);
+
+          return (
           <div key={item._id} className="bg-white shadow rounded p-4 border">
             <div className="flex gap-4">
               <img
@@ -104,6 +118,9 @@ const CartPage = () => {
               <div>
                 <h2 className="font-semibold text-sm">{item.title}</h2>
                 <p className="text-gray-600 text-sm">₹{item.price}</p>
+                {stock !== null ? (
+                  <p className="text-gray-500 text-xs">{stock} available</p>
+                ) : null}
               </div>
             </div>
 
@@ -122,6 +139,7 @@ const CartPage = () => {
                 <span>{item.quantity}</span>
                 <button
                   onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                  disabled={stock !== null && item.quantity >= stock}
                   className="px-2 py-1 border text-sm"
                 >
                   +
@@ -142,7 +160,8 @@ const CartPage = () => {
               Remove
             </button>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Discount + Totals */}
